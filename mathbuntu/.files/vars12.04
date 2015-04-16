@@ -9,7 +9,7 @@ mathbuntuLocal="/opt/mathbuntu"
 
 # Software Notes:
 # REMOVED: scribus xterm xfig r-cmdr plopBootManager
-#   ADDED: texlive
+#   ADDED: texlive spyder
 ################################################
 # Automatically Installed Software information #
 ################################################
@@ -17,7 +17,7 @@ automaticNames="Development MathBase NonMathBase Gimp PidginLatex MathbuntuTarba
 automaticSizes="1000        960      120         115  1           ?"
 
 # Development
-compilePkgs="automake gcc gfortran make g++ openjdk-7-jdk cpp binutils"
+compilePkgs="automake gcc gfortran make g++ openjdk-7-jdk cpp binutils spyder"
 
 # Math base:    663      287     7   3      (sizes)
 commonMathPkgs="texmaker texlive ipe gnuplot"

@@ -199,6 +199,7 @@ fi
 # Install Lurch #
 #################
 if [ ! -z "$(echo $softwareList | grep Lurch)" ]; then
+  echo "Installing development packages. Please be patient. It could be a while before any compiling starts." > /tmp/lurchCompile.log
   newsflash "Compiling lurch in the background...\n\nIf Qt is not already installed, you will see the Qt installation wizard pop up in a few minutes. Please install Qt according to the wizard, accepting the defaults. If you change any of them, Lurch may not install.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/lurchCompile.log\n\nPress Enter to continue." $interactive
   makeTempUser
   makedirectory "$mathbuntuLocal/lurch"
@@ -207,10 +208,25 @@ if [ ! -z "$(echo $softwareList | grep Lurch)" ]; then
   lurchPid=$!
 fi
 
+################
+# Install Sage #
+################
+if [ ! -z "$(echo $softwareList | grep Sagemath)" ]; then
+  echo "Installing development packages. Please be patient. It could be a while before any compiling starts." > /tmp/sageCompile.log
+  newsflash "Compiling sage in the background...\n\nWill move on to other things as soon as possible and check on its progress later. Don't be surprised if it takes a half an hour or so to move on. The Sage download is huge!\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/sageCompile.log"
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs $compileSagePkgs"
+  trycommand "wget -P /tmp $sageServer"
+  trycommand "aria2c -d /tmp --seed-time=10 /tmp/$sageMetaFile"
+  ./compileSage.sh "$sageFile" "$sageDir" "$mathbuntuLocal/sage" "$nobody" > /tmp/sageCompile.log 2>&1 &
+  sagePid=$!
+fi
+
 ##################
 # Install Octave #
 ##################
 if [ ! -z "$(echo $softwareList | grep Octave)" ]; then
+  echo "Installing development packages. Please be patient. It could be a while before any compiling starts." > /tmp/octaveCompile.log
   newsflash "Compiling Octave in the background...\n\nWill move on to other things in a few minutes (maybe as long as a half hour, or more if your internet connection is slow) and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/octaveCompile.log"
   makeTempUser
   trycommand "apt-get install -y $compilePkgs $compileOctavePkgs"
@@ -223,6 +239,7 @@ fi
 # Install Maxima #
 ##################
 if [ ! -z "$(echo $softwareList | grep Maxima)" ]; then
+  echo "Installing development packages. Please be patient. It could be a while before any compiling starts." > /tmp/maximaCompile.log
   newsflash "Compiling Maxima in the background...\n\nWill move on to other things in a few minutes and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/maximaCompile.log"
   makeTempUser
   trycommand "apt-get install -y $compilePkgs $compileMaximaPkgs"
@@ -235,6 +252,7 @@ fi
 # Install wxMaxima #
 ####################
 if [ ! -z "$(echo $softwareList | grep Wxmaxima)" ]; then
+  echo "Installing development packages. Please be patient. It could be a while before any compiling starts." > /tmp/wxmaximaCompile.log
   newsflash "Compiling wxMaxima in the background...\n\nWill move on to other things in a few minutes and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/wxmaximaCompile.log"
   makeTempUser
   makedirectory "$mathbuntuLocal/wxMaxima"
@@ -261,19 +279,6 @@ if [ "$ARCHITECTURE" == "i386" ] && [ ! -z "$(echo $softwareList | grep Xppaut)"
     trycommand "wget -P /tmp $xppautServer/binary/$xppautIcon"
     trycommand "cp /tmp/$xppautIcon $mathbuntuLocal/$xppautDir"
   fi
-fi
-
-################
-# Install Sage #
-################
-if [ ! -z "$(echo $softwareList | grep Sagemath)" ]; then
-  newsflash "Compiling sage in the background...\n\nWill move on to other things as soon as possible and check on its progress later. Don't be surprised if it takes a half an hour or so to move on. The Sage download is huge!\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/sageCompile.log"
-  makeTempUser
-  trycommand "apt-get install -y $compilePkgs $compileSagePkgs"
-  trycommand "wget -P /tmp $sageServer"
-  trycommand "aria2c -d /tmp --seed-time=10 /tmp/$sageMetaFile"
-  ./compileSage.sh "$sageFile" "$sageDir" "$mathbuntuLocal/sage" "$nobody" > /tmp/sageCompile.log 2>&1 &
-  sagePid=$!
 fi
 
 ##################################################
