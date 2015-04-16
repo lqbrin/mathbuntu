@@ -288,12 +288,12 @@ verifyFile()
     cond=1
   else
     if [ ${downloadURL:0:4} == "WGET" ]; then
-      com="wget -P"
+      com="wget -O /tmp/$sourceName"
       downloadURL=${downloadURL:4}
     else
-      com="aria2c -d"
+      com="aria2c -d /tmp -o $sourceName"
     fi
-    trycommand "$com /tmp $downloadURL"
+    trycommand "$com $downloadURL"
     trycommand "mv /tmp/$sourceName $destPath"
     if checkMd5sum $1 $2; then
       cond=1
@@ -307,14 +307,14 @@ doctorDesktopItem()
 {
   desktopFile=$1
   targetDir=$2
-  src=`find /usr/local/share/applications -name $desktopFile`
+  src=`find /usr/local/share/applications -name "$desktopFile"`
   if [ -z "$src" ]; then
-    src=`find /usr/share/applications -name $desktopFile`
+    src=`find /usr/share/applications -name "$desktopFile"`
   fi
   if [ ! -z "$src" ]; then
     target="/etc/skel/Desktop/$targetDir/$desktopFile"
     echo '#!/usr/bin/env xdg-open' > "$target"
-    cat $src >> "$target"
+    cat "$src" >> "$target"
     chmod 755 "$target"
   fi
 }
