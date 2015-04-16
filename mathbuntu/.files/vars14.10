@@ -35,7 +35,7 @@ pidginLatexServer="http://sourceforge.net/projects/pidgin-latex/files/$pidginLat
 pidginLatexTarget="/usr/lib/pidgin/LaTeX.so"
 
 # mathBuntu tarball
-mathbuntuTarballMd5sum="fb0ace03b155dd073a1e18820bbcd6a8"
+mathbuntuTarballMd5sum="bebe6928bcb8c84fc5d551c3a09e3018"
 mathbuntuCheckFile="$mathbuntuLocal/mathbuntuTarball.md5"
 
 # Flavor specific

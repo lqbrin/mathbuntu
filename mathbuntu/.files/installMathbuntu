@@ -487,7 +487,7 @@ newsflash "Tying up loose ends. Installation is almost complete..."
 echo "Installing Mathbuntu Installer..." >> $LOGFILE
 trycommand "wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz"
 trycommand "tar -C /opt/mathbuntu -xzf /tmp/mathbuntu.tar.gz"
-trycommand "cp \"/opt/mathbuntu/mathbuntu/.files/Set Up $FLAVOR.desktop\" /usr/local/share/applications"
+trycommand "cp /opt/mathbuntu/mathbuntu/.files/Set-up-$FLAVOR.desktop /usr/local/share/applications"
 echo >> $LOGFILE
 
 ############################
@@ -569,7 +569,7 @@ trycommand "mkdir -p /etc/skel/Desktop/Online\ Resources"
 doctorDesktopItem "firefox.desktop"
 doctorDesktopItem "freebooks.desktop"
 doctorDesktopItem "ipe.desktop"
-doctorDesktopItem "Set Up $FLAVOR.desktop"
+doctorDesktopItem "Set-up-$FLAVOR.desktop"
 if [ "$FLAVOR" == "Kubuntu" ]; then
   doctorDesktopItem "kate.desktop"
 else
