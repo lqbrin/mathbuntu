@@ -1,0 +1,130 @@
+#!/bin/bash
+
+
+###############################
+# Mathbuntu install directory #
+###############################
+mathbuntuLocal="/opt/mathbuntu"
+
+
+# Software Notes:
+# REMOVED: scribus xterm xfig r-cmdr plopBootManager
+#   ADDED: texlive
+################################################
+# Automatically Installed Software information #
+################################################
+automaticNames="Development MathBase NonMathBase Gimp PidginLatex MathbuntuTarball FlavorSpecific"
+automaticSizes="1000        960      120         115  1           ?"
+
+# Development
+compilePkgs="automake gcc gfortran make g++ openjdk-7-jdk cpp binutils"
+
+# Math base:    663      287     7   3      (sizes)
+commonMathPkgs="texmaker texlive ipe gnuplot"
+
+# Non-math base
+nonmathPkgs="geany filezilla firefox gimp gimp-help-en mozplugger openjdk-7-jdk icedtea-7-plugin pidgin gsfonts-x11 fonts-breip fonts-dustin fonts-f500 ttf-femkeklaver ttf-fifthhorseman-dkg-handwriting ttf-georgewilliams ttf-isabella ttf-jsmath fonts-century-catalogue ttf-lyx"
+
+# Pidgin-latex
+compilePidginLatexPkgs="libgtk2.0-dev pidgin-dev"
+pidginLatexCandidateVersion="1.5"
+pidginLatexSubversion="0"
+pidginLatexDir="pidgin-latex"
+pidginLatexFile="${pidginLatexDir}_$pidginLatexCandidateVersion.$pidginLatexSubversion.tar.gz"
+pidginLatexServer="http://sourceforge.net/projects/pidgin-latex/files/$pidginLatexDir/$pidginLatexCandidateVersion/$pidginLatexFile"
+pidginLatexTarget="/usr/lib/pidgin/LaTeX.so"
+
+# mathBuntu tarball
+mathbuntuTarballMd5sum="fb0ace03b155dd073a1e18820bbcd6a8"
+mathbuntuCheckFile="$mathbuntuLocal/mathbuntuTarball.md5"
+
+# Flavor specific
+kdePkgs="kcalc"
+gnomePkgs="okular firefox-gnome-support"
+
+
+#############################################
+# Optionally Installed Software Information #
+#############################################
+#  index:       0          1       2        3         4        5          6         7      8      9        10     11         12
+optionalNames=("Sagemath" "Lurch" "Octave" "Rstudio" "Scilab" "GeoGebra" "Netlogo" "LyX"  "Gap"  "Maxima" "R"    "Wxmaxima" "Xppaut")
+optionalSizes=("4282"     "1326"  " 383"   " 261"    " 214"   " 169"     " 130"    " 104" "  80" "  69"   "  59" "  38"     "  17")
+optionalBrief=("Mathematics software system" "Math word processor with math checker" "Interpreted Language for numerical computation" "Integrated Development environment for R" "Computing Environment for numerical computation" "Dynamic mathematics for teaching and learning" "Programmable modeling environment" "Mathematical document processor" "Computational discrete algebra" "Computer algebra system" "Environment for statistical computing" "Document-based interface for Maxima" "X-Windows phase plane plus auto")
+optionalStatus=("off" "off" "on" "on" "off" "on" "on" "on" "off" "on" "on" "on" "on")
+
+# Sage
+compileSagePkgs="build-essential m4 dpkg-dev perl tar dvipng imagemagick texlive xterm"
+trycommand "wget -P /tmp http://sagemath.org/version.html"
+sageCandidateVersion=`cat /tmp/version.html`
+sageCandidateVersion=${sageCandidateVersion##*[[:space:]]}
+sageDir="sage-$sageCandidateVersion"
+sageFile="$sageDir.tar.gz"
+sageMetaFile="$sageFile.torrent"
+sageServer="http://mirrors.xmission.com/sage/src/meta/$sageMetaFile"
+
+# Lurch
+compileLurchPkgs="git build-essential libgl1-mesa-dev"
+lurchCandidateVersion="3650"
+lurchServer="https://lurch.svn.sourceforge.net/svnroot/lurch/Lurch/trunk"
+
+# Octave
+compileOctavePkgs="libsuitesparse-dev libcurl4-gnutls-dev libqrupdate-dev libglpk-dev libqhull-dev libhdf5-serial-dev graphicsmagick-libmagick-dev-compat libfftw3-dev libpcre3-dev libreadline-dev gnuplot libarpack2-dev libqscintilla2-dev libfltk1.3-dev libgl2ps-dev gperf flex bison texinfo texlive pkgconf"
+octaveCandidateVersion="3.8.2"
+octaveDir="octave-$octaveCandidateVersion"
+octaveFile="$octaveDir.tar.gz"
+octaveServer="ftp://ftp.gnu.org/gnu/octave/$octaveFile"
+
+# Rstudio
+rstudioCandidateVersion="0.98"
+rstudioCandidateSubversion="1103"
+rstudioCandidateFullVersion=$rstudioCandidateVersion.$rstudioCandidateSubversion
+rstudioFile="rstudio-$rstudioCandidateFullVersion-$ARCHITECTURE.deb"
+rstudioServer="http://download1.rstudio.org/"
+rstudioDependencies="libjpeg62"
+
+# SciLab
+scilabPkgs="scilab"
+
+# GeoGebra
+geogebraPackageName="geogebra5"
+geogebraCandidateVersion="5.0.82.0"
+geogebraCandidateSubversion="39727"
+geogebraServer="http://www.geogebra.net/linux/pool/main/g/$geogebraPackageName"
+geogebraFile="${geogebraPackageName}_$geogebraCandidateVersion-${geogebraCandidateSubversion}_$ARCHITECTURE.deb"
+
+# NetLogo
+netlogoCandidateVersion="5.2.0"
+netlogoDir="netlogo-$netlogoCandidateVersion"
+netlogoFile="$netlogoDir.tar.gz"
+netlogoServer="http://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
+
+# LyX
+lyxPkgs="lyx"
+
+# Gap
+gapPkgs="gap gap-doc gap-prim-groups gap-small-groups gap-trans-groups gap-guava"
+
+# Maxima
+compileMaximaPkgs="clisp texinfo texi2html tk"
+maximaCandidateVersion="5.35.1"
+maximaDir="maxima-$maximaCandidateVersion"
+maximaFile="$maximaDir.tar.gz"
+maximaServer="http://sourceforge.net/projects/maxima/files/Maxima-source/$maximaCandidateVersion-source/maxima-$maximaCandidateVersion.tar.gz"
+
+# R
+rPkgs="r-cran-rodbc"
+
+# wxMaxima
+compileWxmaximaPkgs="libwxgtk2.8-dev"
+wxmaximaCandidateVersion="14.12.1"
+wxmaximaDir="wxmaxima-$wxmaximaCandidateVersion"
+wxmaximaFile="$wxmaximaDir.tar.gz"
+wxmaximaServer="http://sourceforge.net/projects/wxmaxima/files/wxMaxima/$wxmaximaCandidateVersion/$wxmaximaFile/download"
+
+# xppaut
+xppautCandidateVersion="7.0"
+xppautServer="http://www.math.pitt.edu/~bard/bardware"
+xppautFile="xppaut$xppautCandidateVersion.tar.gz"
+xppautDir="xppaut"
+xppautIcon="xppaut.ico"
+xppautIconMd5sum="df0ef1846a581ebd580c85599d5f44c6"

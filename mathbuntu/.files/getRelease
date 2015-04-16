@@ -1,0 +1,57 @@
+#!/bin/bash
+
+ACCEPTABLEVERSION1="12.04"
+ACCEPTABLENAME1="precise pangolin"
+ACCEPTABLEVERSION2="14.04"
+ACCEPTABLENAME2="trusty tahr"
+ACCEPTABLEVERSION3="14.10"
+ACCEPTABLENAME3="utopic unicorn"
+ACCEPTABLEVERSION4="15.04"
+ACCEPTABLENAME4="vivid vervet"
+DEFAULTVERSION="14.04"
+
+MESSAGE1="\n\n\n\n\n\n\n\n\n\n
+It seems you are not running any version of Ubuntu...\n
+\n
+Running this script will have completely unknown effects on\n
+your operating system.\n
+\n
+Exiting before disaster strikes.\n\n"
+
+MESSAGE2="\n\n\n\n\n\n\n\n\n\n
+I was unable to determine which version of Ubuntu you are using.\n
+Perhaps you are not using Ubuntu at all...\n
+\n
+This script is designed to work for Ubuntu linux only.\n\n"
+
+MESSAGE3="\n\n\n\n\n\n\n\n\n\n
+This script is designed for versions\n
+   $ACCEPTABLEVERSION1 ($ACCEPTABLENAME1)\n
+   $ACCEPTABLEVERSION2 ($ACCEPTABLENAME2)\n
+   $ACCEPTABLEVERSION3 ($ACCEPTABLENAME3)\n
+   $ACCEPTABLEVERSION4 ($ACCEPTABLENAME4)\n
+only. You seem to be using version $VERSION.\n
+\n
+It is not recommended that you continue. However, you may proceed\n
+at your own risk. While the script is not likely to cause any\n
+severe damage to your system, results are unknown. Your system\n
+may or may not function properly after running this installation.\n\n"
+
+VERSION=`cat /etc/lsb-release | grep RELEASE`
+VERSION=`echo $VERSION | awk -F'=' '{print $2}'`
+distID=`cat /etc/lsb-release | grep ID`
+distID=`echo $distID | awk -F'=' '{print $2}'`
+distIDisOK=`echo $distID | grep buntu`
+
+CONTINUE="no"
+if [ -z "$distIDisOK" ]; then
+  echo -e $MESSAGE1
+elif [ -z "$VERSION" ]; then
+  echo -e $MESSAGE2
+elif float_cond "$VERSION != $ACCEPTABLEVERSION1" && float_cond "$VERSION != $ACCEPTABLEVERSION2" && float_cond "$VERSION != $ACCEPTABLEVERSION3" && float_cond "$VERSION != $ACCEPTABLEVERSION4"; then
+  VERSION="$DEFAULTVERSION"
+  echo -e $MESSAGE3
+  askToContinue
+else
+  CONTINUE="yes"
+fi

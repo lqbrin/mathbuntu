@@ -1,0 +1,21 @@
+#!/usr/bin/xdg-open
+[Desktop Entry]
+Categories=Education;Math;
+Comment[en_US]=
+Comment=
+Exec=/etc/alternatives/x-terminal-emulator -e $(dirname %k)/.files/setup
+GenericName[en_US]=Install Mathematical Software
+GenericName=Install Mathematical Software
+Icon=kde
+MimeType=
+Name[en_US]=MathKubuntu Set Up
+Name=MathKubuntu Set Up
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

@@ -1,0 +1,320 @@
+#!/bin/bash
+
+realname="Mr. TeMpOrArY MaThBuNtU uSeR"
+room="1"
+phone="123-581-3213"
+office="455-891-4423"
+other="337-761-0987"
+gecos="$realname,$phone,$office,$other"
+
+askToContinue()
+{
+  echo -n "Do you wish to continue? [y/N] "
+  CONTINUE=`yes_no`
+  echo
+}
+
+makeTempUser()
+{
+  nobody=`grep "$gecos" /etc/passwd`
+  nobody=${nobody%%:*}
+  if [ -z "$nobody" ]; then
+    nobody="tempbuntu$(( $RANDOM + 10000 ))"
+    trycommand "adduser --disabled-password --gecos \"$gecos\" $nobody"
+  fi
+}
+
+deleteTempUser()
+{
+  nobody=`grep "$gecos" /etc/passwd`
+  nobody=${nobody%%:*}
+  if [ ! -z "$nobody" ]; then
+    trycommand "deluser --remove-home $nobody"
+  fi
+}
+
+makedirectory()
+{
+  if [ -f "$1" ]; then
+    trycommand "rm -f $1"
+  fi
+  trycommand "mkdir -p $1"
+}
+
+newsflash()
+{
+  local msgbox="--infobox"
+  if [ ! -z "$2" ] && [ "$2" == "interactive" ]; then
+    msgbox="--msgbox"
+  fi
+  numFlashes=$(( $numFlashes + 1 ))
+  $DIALOG --backtitle "$(date)" $msgbox "$1\n\nProgress: $numFlashes/$newsflashCount" $BOXSIZE
+}
+
+processCommandLine()
+{
+# If AUTOMATIC=="no" all other variables are ignored
+  UPGRADE="no"
+  AUTOMATIC="no"
+  interactive="interactive"
+  for arg in "$@"
+  do
+    case $1 in
+      "upgrade")
+	UPGRADE="yes"
+	;;
+      "automatic")
+	AUTOMATIC="yes"
+	interactive=""
+	;;
+      "sage")
+	INSTALL_SAGE="yes"
+	;;
+      "lurch")
+	INSTALL_LURCH="yes"
+	;;
+      "scilab")
+	INSTALL_SCILAB="yes"
+	;;
+      "gap")
+	INSTALL_GAP="yes"
+	;;
+    esac
+    shift
+  done
+}
+
+function float_cond()
+{
+    local cond=0
+    if [[ $# -gt 0 ]]; then
+        cond=$(echo "$*" | bc -q 2>/dev/null)
+        if [[ -z "$cond" ]]; then cond=0; fi
+        if [[ "$cond" != 0  &&  "$cond" != 1 ]]; then cond=0; fi
+    fi
+    local stat=$((cond == 0))
+    return $stat
+}
+
+function version_compare()
+{
+    local cond=0
+    current=( $(echo $1 | tr "." "\n") )
+    candidate=( $(echo $2 | tr "." "\n") )
+    num=${#current[@]}
+    for (( i = 0 ; i < $num ; i++ ))
+    do
+        if [[ ${current[i]} -lt ${candidate[i]} ]]; then
+            cond=1
+        fi
+    done
+    local stat=$((cond == 0))
+    return $stat
+}
+
+yes_no()  # Defaults to No
+{
+  local response="no"
+  read response
+  if [ ! $response ]; then
+    response="no" 
+  else
+    if [ ${response:0:1} == "y" ] || [ ${response:0:1} == "Y" ]; then
+      response="yes"
+    else
+      response="no"
+    fi
+  fi
+  echo $response
+}
+
+logBreak()
+{
+	echo >> $LOGFILE
+	echo "-----------------------------------------------" >> $LOGFILE
+	echo >> $LOGFILE
+}
+
+trycommand()
+{
+  logBreak
+  date >> $LOGFILE
+  echo "trying" >> $LOGFILE
+  echo "$1" >> $LOGFILE
+  echo >> $LOGFILE
+  if eval "$1 &>> $LOGFILE"; then
+    echo >> $LOGFILE
+    echo "Success :)" >> $LOGFILE
+  else
+    echo >> $LOGFILE
+    echo "Failure::on $1" >> $LOGFILE
+  fi
+}
+
+sageHack()
+{
+  # This was a hack used because the documents were not available individually
+  trycommand "aria2c -d /tmp http://www.sagemath.org/doc-bz2/sage-4.4-doc-pdf.tar.bz2"
+  trycommand "bunzip2 /tmp/sage-4.4-doc-pdf.tar.bz2"
+  trycommand "tar -C /tmp -xvf /tmp/sage-4.4-doc-pdf.tar"
+  trycommand "mv /tmp/sage-4.4-doc-pdf/en/*/* /tmp"
+  trycommand "mv /tmp/a_tour_of_sage.pdf $documentationDestDir/Sage/sageTour.pdf"
+  trycommand "mv /tmp/SageTutorial.pdf $documentationDestDir/Sage/sageTutorial.pdf"
+  trycommand "mv /tmp/reference.pdf $documentationDestDir/Sage/sageReference.pdf"
+  trycommand "mv /tmp/constructions.pdf $documentationDestDir/Sage/sageConstructions.pdf"
+  trycommand "mv /tmp/numerical_sage.pdf $documentationDestDir/Sage/sageNumerical.pdf"
+  trycommand "mv /tmp/bordeaux_2008.pdf $documentationDestDir/Sage/sageNumberTheory.pdf"
+}
+
+echoTableStart()
+{
+  echo "<table style=\"text-align: left; margin-left: auto; margin-right: auto; width: 700px; height: 500px;\" background=\"rectangle.png\" cellpadding=\"2\" cellspacing=\"2\"><caption align=\"bottom\">Spring 2015 Collection</caption>"
+  echo "<tr><td><img src=\"space.png\"></td><td><br></td><td><br></td><td><br></td><td><img src=\"space.png\"></td></tr>"
+  echo "<tr><td></td><th style=\"text-align: center\">Go To Web Page</th><th style=\"text-align: center\">Read It!</th><th style=\"text-align: center\">License</th><td></td></tr>"
+}
+
+echoTableEnd()
+{
+  echo "<tr><td><img src=\"space.png\"></td><td><br></td><td><br></td><td><br></td><td><img src=\"space.png\"></td></tr>"
+  echo "</table></body></html>"
+}
+
+echoWxmaximaFirstRow()
+{
+  echo "<tr><td></td>"
+  echo "<td><a target=\"_blank\" href=\"http://wxmaxima.sourceforge.net\"><span class=\"headword\">Sample Files</span><br>http://wxmaxima.sourceforge.net/</a><br></td>"
+  echo "<td style=\"text-align: center;\"><a href=\"wxmaximaSamples.html\"><img border=\"0\" src=\"/usr/share/icons/oxygen/48x48/places/folder-brown.png\"></a></td>"
+  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"http://wxmaxima.sourceforge.net\"><img border=\"0\" src=\"/usr/share/icons/oxygen/48x48/actions/help-contents.png\"></a></td>"
+  echo "<td><br></td></tr>"
+}
+
+installDocumentation()
+{
+  # $1 = documentation list file
+  # $2 = HTML head file
+  # $3 = HTML destination file
+  # $4 = HTML destination directory
+  # $5 = documentation destination directory
+  # $6 = documentation destination subdirectory
+  cp -f $2 $3
+  docList=( $(cat $1 | grep -v -E "^#") )
+  numDocs=$(( ${#docList[@]} / 8 ))
+  echoTableStart >> $3
+  isWxmaxima=`echo $2 | grep maxima`
+  if [ $isWxmaxima ]; then
+    echoWxmaximaFirstRow >> $3
+  fi
+  destDir=$5/$6
+  if [ -e $destDir ] && [ ! -d $destDir ]; then
+    rm -f $destDir
+  fi
+  if [ ! -d $destDir ]; then
+    mkdir -p $destDir
+  fi
+  for (( i = 0 ; i < $numDocs ; i++ )) do
+    destPath=$destDir/${docList[8*i+5]}
+    md5sum=${docList[8*i+7]}
+    if checkMd5sum $destPath $md5sum; then
+      echo "${docList[8*i+5]} is already installed." >> $LOGFILE
+    else
+      downloadURL=${docList[8*i+1]}
+      sourceName=${docList[8*i+4]}
+      cp -f ./pdfNotAvailable.pdf $destPath
+      trycommand "aria2c -d /tmp $downloadURL"
+      trycommand "mv /tmp/$sourceName $destPath"
+      verifyList[4*$verifyCount]=$destPath
+      verifyList[4*$verifyCount+1]=$md5sum
+      verifyList[4*$verifyCount+2]=$downloadURL
+      verifyList[4*$verifyCount+3]=$sourceName
+      verifyCount=$(( $verifyCount + 1 ))
+    fi
+    shortURL=`echo ${docList[8*i]} | awk -F'/' '{print $1"//"$3}'`
+    echo "<tr><td></td>" >> $3
+    echo "<td><a target=\"_blank\" href=\"${docList[8*i]}\"><span class=\"headword\">${docList[8*i+6]}</span><br>$shortURL</a></td>" >> $3
+    echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"pdfs/$6/${docList[8*i+5]}\"><img border=\"0\" src=\"/usr/local/share/mathbuntu/acroread/acroread.png\"></a></td>" >> $3
+    echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"${docList[8*i+2]}\"><img border=\"0\" src=\"${docList[8*i+3]}\"></a></td>" >> $3
+    echo "<td><br></td></tr>" >> $3
+  done
+  echoTableEnd >> $3
+  mv $3 $4
+}
+
+checkForErrors()
+{
+  cat $LOGFILE | grep "Failure::on "
+}
+
+retryFailedCommands()
+{
+  cat $LOGFILE | grep "Failure::on " | awk -F'ure::on' '{print $2}' > retryCommands
+  LOGFILE="retry.log"
+  rm -f $LOGFILE
+  while read line; do
+    trycommand "$line"
+  done < retryCommands
+}
+
+continueLooking()
+{
+  echo
+  echo "Press RETURN to continue looking for other errors..."
+  echo
+  read nonsense
+}
+
+checkMd5sum()
+{
+  local cond=0
+  filename=$1
+  if [ -e "$filename" ]; then
+    md5=$2
+    targetMd5=`md5sum $filename | awk -F'  ' '{print $1}'`
+    if [ "$md5" == "$targetMd5" ]; then
+      cond=1
+    fi
+  fi
+  local stat=$((cond == 0))
+  return $stat
+}
+
+verifyFile()
+{
+  local cond=0
+  destPath=$1
+  md5sum=$2
+  downloadURL=$3
+  sourceName=$4
+  if checkMd5sum $1 $2; then
+    cond=1
+  else
+    if [ ${downloadURL:0:4} == "WGET" ]; then
+      com="wget -P"
+      downloadURL=${downloadURL:4}
+    else
+      com="aria2c -d"
+    fi
+    trycommand "$com /tmp $downloadURL"
+    trycommand "mv /tmp/$sourceName $destPath"
+    if checkMd5sum $1 $2; then
+      cond=1
+    fi
+  fi
+  local stat=$((cond == 0))
+  return $stat
+}
+
+doctorDesktopItem()
+{
+  desktopFile=$1
+  targetDir=$2
+  src=`find /usr/local/share/applications -name $desktopFile`
+  if [ -z "$src" ]; then
+    src=`find /usr/share/applications -name $desktopFile`
+  fi
+  if [ ! -z "$src" ]; then
+    target="/etc/skel/Desktop/$targetDir/$desktopFile"
+    echo '#!/usr/bin/env xdg-open' > "$target"
+    cat $src >> "$target"
+    chmod 755 "$target"
+  fi
+}

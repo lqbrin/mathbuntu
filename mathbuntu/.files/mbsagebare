@@ -1,0 +1,36 @@
+#!/bin/sh
+
+if [ ! -e ~/.mbsage/.notfirstrun ]; then
+  echo '////////////////////////////////////////////////////////////////'
+  echo '/                                                              /'
+  echo '/  Welcome to the sage startup script!                         /'
+  echo '/                                                              /'
+  echo '/  The first time you run this script, it will ask you for an  /'
+  echo '/  admin password. Be sure to enter it when asked. You will    /'
+  echo '/  not be asked for it in the future.                          /'
+  echo '/                                                              /'
+  echo '/  This script will NOT launch an interactive sage session.    /'
+  echo '/  After the sage server (this script) has started, click on   /'
+  echo '/  the "Start Sage Notebook" icon on your desktop. This will   /'
+  echo '/  give you an interactive sage notebook session.              /'
+  echo '/                                                              /'
+  echo '/  You must leave this window open, though you may minimize    /'
+  echo '/  it if you like, as long as you are running sage notebooks.  /'
+  echo '/                                                              /'
+  echo '/  However, if you are simply running command line sage (you   /'
+  echo '/  did not start this script by clicking "Start Sage Server")  /'
+  echo '/  you can safely ignore this message.                         /'
+  echo '/                                                              /'
+  echo '////////////////////////////////////////////////////////////////'
+  echo
+  echo 'Press Enter to continue.'
+  if read -t 60 response; then
+    echo
+  else
+    echo 'Time up! I continued automatically. No need to press Enter now.'
+  fi
+  mkdir -p ~/.mbsage
+  touch ~/.mbsage/.notfirstrun
+fi
+
+echo

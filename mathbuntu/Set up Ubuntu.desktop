@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Education;Math;
+Comment[en_US]=
+Comment=
+Exec=xterm -e "`dirname %k`/.files/setup"
+GenericName[en_US]=Install Mathematical Software
+GenericName=Install Mathematical Software
+Icon=ubiquity
+MimeType=
+Name[en_US]=MathUbuntu Set Up
+Name=MathUbuntu Set Up
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application

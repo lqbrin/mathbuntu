@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ARCHITECTURE="i386"
+ARCHITECTURE=`dpkg --print-architecture`

@@ -1,0 +1,177 @@
+#!/bin/bash
+
+isRequested()
+{
+  local cond=0
+  requested=`echo $softwareList | grep $1`
+  if [ ! -z "$requested" ]; then
+    cond=1
+  fi
+  local stat=$((cond == 0))
+  return $stat
+}
+
+# use ***_UPTODATE and ***_INSTALLED as input parameters
+statusString()
+{
+	local response="${BR}installed${N}"
+	if [ -z "$2" ];then
+	  response="not installed"
+	elif [ "$1" == "yes" ]; then
+	  response="$response and ${BC}up to date${N}"
+	fi
+	echo $response
+}
+
+# Find out what's installed and up to date
+
+# Sage
+SAGE_UPTODATE="yes"
+installedVersion=""
+SAGE_INSTALLED=`which sage`
+if [ ! -z "$SAGE_INSTALLED" ]; then
+  installedVersion=`sage --version 2>&1 | grep Version | awk -F'Version ' '{print $2}' | awk -F',' '{print $1}'`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$sageCandidateVersion"; then
+  SAGE_UPTODATE="no"
+fi
+
+# Lurch
+LURCH_UPTODATE="yes"
+installedVersion=""
+LURCH_INSTALLED=`which lurch`
+if [ ! -z "$LURCH_INSTALLED" ] && [ -f "$mathbuntuLocal/lurch/version" ]; then
+  installedVersion=`cat $mathbuntuLocal/lurch/version`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$lurchCandidateVersion"; then
+  LURCH_UPTODATE="no"
+fi
+
+# Octave
+OCTAVE_UPTODATE="yes"
+installedVersion=""
+OCTAVE_INSTALLED=`which octave`
+if [ ! -z "$OCTAVE_INSTALLED" ]; then
+  installedVersion=`octave --version | grep version | awk -F'version ' '{print $2}'`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$octaveCandidateVersion"; then
+  OCTAVE_UPTODATE="no"
+fi
+
+# Rstudio
+RSTUDIO_UPTODATE="yes"
+installedVersion=""
+RSTUDIO_INSTALLED=`which rstudio`
+if [ ! -z "$RSTUDIO_INSTALLED" ]; then
+  installedVersion=`apt-cache showpkg rstudio | grep $rstudioCandidateVersion`
+  installedVersion=${installedVersion%%\ *}
+  installedVersion=${installedVersion%%-*}
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$rstudioCandidateFullVersion"; then
+  RSTUDIO_UPTODATE="no"
+fi
+
+# Scilab (using package, defaults to no install unless already installed)
+SCILAB_INSTALLED=`which scilab`
+SCILAB_UPTODATE="no"
+
+# GeoGebra
+GEOGEBRA_UPTODATE="yes"
+installedVersion=""
+GEOGEBRA_INSTALLED=`which geogebra`
+if [ ! -z "$GEOGEBRA_INSTALLED" ]; then
+  packageVersion=`apt-cache showpkg $geogebraPackageName`
+  packageVersion=${packageVersion%%-*}
+  packageVersion=${packageVersion##*[[:space:]]}
+  if [ ! -z "$packageVersion" ]; then
+    packageInstalled=`dpkg --get-selections | grep -v deinstall | grep $geogebraPackageName`
+    if [ ! -z "$packageInstalled" ]; then
+      installedVersion=$packageVersion
+    fi
+  fi
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$geogebraCandidateVersion"; then
+  GEOGEBRA_UPTODATE="no"
+fi
+
+# NetLogo
+NETLOGO_UPTODATE="yes"
+installedVersion=""
+NETLOGO_INSTALLED=`which netlogo`
+if [ ! -z "$NETLOGO_INSTALLED" ] && [ -f "$mathbuntuLocal/$netlogoDir/version" ]; then
+  installedVersion=`cat $mathbuntuLocal/$netlogoDir/version`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$netlogoCandidateVersion"; then
+  NETLOGO_UPTODATE="no"
+fi
+
+# LyX (using package defaults to yes install)
+LYX_INSTALLED=`which lyx`
+LYX_UPTODATE="no"
+
+# Gap (using package defaults to no install unless already installed)
+GAP_INSTALLED=`which gap`
+GAP_UPTODATE="no"
+
+# Maxima
+MAXIMA_UPTODATE="yes"
+installedVersion=""
+MAXIMA_INSTALLED=`which maxima`
+if [ ! -z "$MAXIMA_INSTALLED" ]; then
+  installedVersion=`maxima --version | awk -F'Maxima ' '{print $2}'`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$maximaCandidateVersion"; then
+  MAXIMA_UPTODATE="no"
+fi
+
+# R (using package)
+R_INSTALLED=`which R`
+R_UPTODATE="no"
+
+# wxMaxima
+WXMAXIMA_UPTODATE="yes"
+installedVersion=""
+WXMAXIMA_INSTALLED=`which wxmaxima`
+if [ ! -z "$WXMAXIMA_INSTALLED" ] && [ -f "$mathbuntuLocal/wxMaxima/version" ]; then
+  installedVersion=`cat $mathbuntuLocal/wxMaxima/version`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$wxmaximaCandidateVersion"; then
+  WXMAXIMA_UPTODATE="no"
+fi
+
+# Xppaut (ONLY INSTALL IN i386 ARCHITECTURE!!!)
+XPPAUT_UPTODATE="yes"
+installedVersion=""
+XPPAUT_INSTALLED=`which xppaut`
+if [ ! -z "$XPPAUT_INSTALLED" ]; then
+  testfile="$mathbuntuLocal/$xppautDir/ode/pend.ode"
+  if [ -f "$testfile" ]; then
+    installedVersion=`xppaut -silent $testfile | grep XPPAUT | awk -F'XPPAUT ' '{print $2}' | awk -F' ' '{print $1}'`
+  fi
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$xppautCandidateVersion"; then
+  XPPAUT_UPTODATE="no"
+fi
+
+# Pidgin-LaTeX
+PIDGINLATEX_UPTODATE="yes"
+installedVersion=""
+if [ -f "$pidginLatexTarget" ]; then
+  PIDGINLATEX_INSTALLED="yes"
+fi
+if [ ! -z "$PIDGINLATEX_INSTALLED" ] && [ -f "$mathbuntuLocal/pidginLatexVersion" ]; then
+  installedVersion=`cat $mathbuntuLocal/pidginLatexVersion`
+fi
+if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$pidginLatexCandidateVersion"; then
+  PIDGINLATEX_UPTODATE="no"
+fi
+
+# Custom Files
+CUSTOMFILES_UPTODATE="yes"
+if [ -f "$mathbuntuCheckFile" ]; then
+  CUSTOMFILES_INSTALLED="yes"
+  installedMd5sum=`cat $mathbuntuCheckFile`
+  if [ "$installedMd5sum" != "$mathbuntuTarballMd5sum" ]; then
+    CUSTOMFILES_UPTODATE="no"
+  fi
+fi

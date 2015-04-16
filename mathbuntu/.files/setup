@@ -1,0 +1,20 @@
+#!/bin/bash
+
+path=$(dirname $0)
+
+echo "This script will install a number of mathematical software titles"
+echo "on your computer. You need to have administrative privileges to"
+echo "do so. The account you set up when you installed *buntu has such"
+echo "privileges. If you are running this from another account, you"
+echo "may not have proper administrative rights. We'll find out"
+echo "shortly!"
+echo
+echo "You will soon be asked for your password. You will not see"
+echo "anything on screen as you type. This is the normal behavior. Just"
+echo "finish typing and hit Return."
+echo
+echo "Hit Return now to continue."
+
+read junk
+
+sudo $path/installMathbuntu 2> $path/mathbuntu.err

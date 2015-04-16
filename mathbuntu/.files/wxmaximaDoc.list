@@ -1,0 +1,43 @@
+######################################################
+# DOCUMENTATION: 8 lines per document:               #
+# 0) General information URL                         #
+# 1) pdf download URL                                #
+# 2) license URL                                     #
+# 3) license icon                                    #
+# 4) source filename                                 #
+# 5) destination filename                            #
+# 6) Brief Title (in HTML, no spaces)                #
+# 7) md5sum                                          #
+######################################################
+#
+# Last updated  8 April 2015
+#
+#
+http://maxima.sourceforge.net/documentation.html
+http://maxima.sourceforge.net/docs/intromax/intromax.pdf
+http://maxima.sourceforge.net/documentation.html
+pngs/help-contents.png
+intromax.pdf
+maximaIntroduction.pdf
+Maxima&nbsp;Introduction
+5b76a3cd4c890a663495e3edd1a50973
+#
+#
+http://maxima.sourceforge.net/documentation.html
+http://home.southernct.edu/~brinl1/pubs/maxima_and_calculus.pdf
+http://creativecommons.org/licenses/by-sa/3.0/us/
+pngs/cc-by-sa-88x31.png
+maxima_and_calculus.pdf
+maximaAndCalculus.pdf
+Maxima&nbsp;&amp;&nbsp;the&nbsp;Calculus
+2885280c1967c4f12dc239e58a54b076
+#
+#
+http://maxima.sourceforge.net/documentation.html
+http://maxima.sourceforge.net/docs/manual/en/maxima.pdf
+http://maxima.sourceforge.net/documentation.html
+pngs/help-contents.png
+maxima.pdf
+maximaReference.pdf
+Maxima&nbsp;Reference
+e41273375dfda9e3a4a04441fdf8cef8

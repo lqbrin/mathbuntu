@@ -1,0 +1,684 @@
+#!/bin/bash
+
+#                                                                          #
+#  installMathbuntu is a script that will install mathematics related      #
+#  software to an Ubuntu installation.                                     #
+#  Copyright (C) 2010-2014  Leon Q. Brin                                   #
+#                                                                          #
+#  This script and accompanying files are free software; you can           #
+#  redistribute it and/or modify it under the terms of the GNU General     #
+#  Public License as published by the Free Software Foundation; either     #
+#  version 2 of the License, or (at your option) any later version.        #
+#                                                                          #
+#  This program is distributed in the hope that it will be useful,         #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of          #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
+#  GNU General Public License for more details.                            #
+#                                                                          #
+#  You should have received a copy of the GNU General Public License       #
+#  along with this program; if not, write to the Free Software Foundation, #
+#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.     #
+#                                                                          #
+#  Written by Leon Q. Brin                                                 #
+#  Last updated 29 April 2014                                              #
+#                                                                          #
+
+###############################################################
+# Check for internet connection. No sense in going on if none #
+###############################################################
+echo "Checking for internet connection..."
+up=`ping -c 1 -W 2 google.com -q 2> /dev/null`
+if [ -z "$up" ]; then
+	up=`ping -c 1 -W 2 yahoo.com -q 2> /dev/null`
+fi
+if [ -z "$up" ]; then
+	echo
+	echo "It seems this computer is not connected to the internet.
+	A live connection is required for installation.
+	Exiting now. Bye."
+	echo
+	exit 1
+fi
+
+###########################################
+# Set basic info and load install methods #
+###########################################
+workingDir=$(dirname $0)
+cd $workingDir
+verifyCount=0
+LOGFILE="mathbuntu.log"
+date > $LOGFILE
+source ./installMethods
+makeTempUser
+newsflashCount=`grep newsflash installMathbuntu | wc | awk '{print $1}'`
+
+###########################################
+# Install critical installer applications #
+###########################################
+echo "Checking for prerequisite packages. Installing if necessary..."
+installerPkgs="aria2 dialog"
+trycommand "apt-get install -y $installerPkgs"
+
+##########################
+# Get system information #
+##########################
+processCommandLine $*     # Set AUTOMATIC
+                          #     UPDATE
+                          #     INSTALL_SAGE
+                          #     INSTALL_LURCH
+source ./getArchitecture  # Set ARCHITECTURE
+source ./getFlavor        # Set FLAVOR
+source ./getRelease       # Set VERSION
+if [ "$CONTINUE" == "no" ]; then
+  echo -e "\n Now exiting. Bye!\n\n"
+  exit 3
+fi
+echo
+
+#########
+# Begin #
+#########
+source ./setDialogCommand # Set DIALOG, MSGBOX, BOXSIZE, BR, BC, N
+newsflash "          Welcome to the $FLAVOR $VERSION $ARCHITECTURE installer!\n
+\n
+If you are not planning to keep your computer occupied while
+this script runs, you should ${BY}TURN OFF POWER MANAGEMENT${N} now.
+The installation could take hours, and will be interrupted
+every 10 or 15 minutes by power savers that pause the machine due to
+\"inactivity\".\n
+\n
+Press Enter to continue." $interactive
+newsflash "If you are curious to see the progress of the installation,
+open a new terminal window and issue the following
+command (all on one line).\n
+\n
+   tail -f $workingDir/$LOGFILE\n
+\n
+Press Enter to continue." $interactive
+
+######################
+# Set some variables #
+######################
+source ./vars$VERSION
+# Textbooks and Documentation
+htmlDestDir="$mathbuntuLocal/freebooks"
+textbookDestDir="$mathbuntuLocal/freebooks/pdfs"
+textbook=( $(cat "./textbook.list" | grep -v -E "^#") )
+documentationDestDir="$mathbuntuLocal/freebooks/pdfs"
+geogebraDocList="./geogebraDoc.list"
+maximaDocList="./wxmaximaDoc.list"
+sageDocList="./sageDoc.list"
+rDocList="./rDoc.list"
+tempfile="/tmp/mathbuntu$RANDOM"
+
+#########################
+# Make some directories #
+#########################
+makedirectory "$mathbuntuLocal"
+makedirectory "$htmlDestDir"
+makedirectory "$textbookDestDir"
+makedirectory "$documentationDestDir"
+
+################################
+# Find out what should be done #
+################################
+source ./checkInstalledSoftware
+# Change "install" status from off to on if already installed
+# but not up to date.
+# Only for packages which default to off
+# indices: 0 1 4 8 (sage, lurch, scilab, gap)
+if [ ! -z "$SAGE_INSTALLED" ] && [ "$SAGE_UPTODATE" == "no" ]; then
+  optionalStatus[0]="on"
+fi
+if [ ! -z "$LURCH_INSTALLED" ] && [ "$LURCH_UPTODATE" == "no" ]; then
+  optionalStatus[1]="on"
+fi
+if [ ! -z "$SCILAB_INSTALLED" ] && [ "$SCILAB_UPTODATE" == "no" ]; then
+  optionalStatus[4]="on"
+fi
+if [ ! -z "$GAP_INSTALLED" ] && [ "$GAP_UPTODATE" == "no" ]; then
+  optionalStatus[8]="on"
+fi
+# Change "install" status from on to off if already installed and up to date
+# Only for packages which default to on
+# indices: 2 3 5 6 7 9 10 11 12 (Octave, Rstudio, GeoGebra, Netlogo, LyX, Maxima, R, Wxmaxima, Xppaut)
+if [ ! -z "$OCTAVE_INSTALLED" ] && [ "$OCTAVE_UPTODATE" == "yes" ];then
+  optionalStatus[2]="off"
+fi
+if [ ! -z "$RSTUDIO_INSTALLED" ] && [ "$RSTUDIO_UPTODATE" == "yes" ];then
+  optionalStatus[3]="off"
+fi
+if [ ! -z "$GEOGEBRA_INSTALLED" ] && [ "$GEOGEBRA_UPTODATE" == "yes" ];then
+  optionalStatus[5]="off"
+fi
+if [ ! -z "$NETLOGO_INSTALLED" ] && [ "$NETLOGO_UPTODATE" == "yes" ];then
+  optionalStatus[6]="off"
+fi
+if [ ! -z "$LYX_INSTALLED" ] && [ "$LYX_UPTODATE" == "yes" ];then
+  optionalStatus[7]="off"
+fi
+if [ ! -z "$MAXIMA_INSTALLED" ] && [ "$MAXIMA_UPTODATE" == "yes" ];then
+  optionalStatus[9]="off"
+fi
+if [ ! -z "$R_INSTALLED" ] && [ "$R_UPTODATE" == "yes" ];then
+  optionalStatus[10]="off"
+fi
+if [ ! -z "$WXMAXIMA_INSTALLED" ] && [ "$WXMAXIMA_UPTODATE" == "yes" ];then
+  optionalStatus[11]="off"
+fi
+if [ ! -z "$XPPAUT_INSTALLED" ] && [ "$XPPAUT_UPTODATE" == "yes" ];then
+  optionalStatus[12]="off"
+fi
+softwareStatus[0]=`statusString $SAGE_UPTODATE $SAGE_INSTALLED`
+softwareStatus[1]=`statusString $LURCH_UPTODATE $LURCH_INSTALLED`
+softwareStatus[2]=`statusString $OCTAVE_UPTODATE $OCTAVE_INSTALLED`
+softwareStatus[3]=`statusString $RSTUDIO_UPTODATE $RSTUDIO_INSTALLED`
+softwareStatus[4]=`statusString $SCILAB_UPTODATE $SCILAB_INSTALLED`
+softwareStatus[5]=`statusString $GEOGEBRA_UPTODATE $GEOGEBRA_INSTALLED`
+softwareStatus[6]=`statusString $NETLOGO_UPTODATE $NETLOGO_INSTALLED`
+softwareStatus[7]=`statusString $LYX_UPTODATE $LYX_INSTALLED`
+softwareStatus[8]=`statusString $GAP_UPTODATE $GAP_INSTALLED`
+softwareStatus[9]=`statusString $MAXIMA_UPTODATE $MAXIMA_INSTALLED`
+softwareStatus[10]=`statusString $R_UPTODATE $R_INSTALLED`
+softwareStatus[11]=`statusString $WXMAXIMA_UPTODATE $WXMAXIMA_INSTALLED`
+softwareStatus[12]=`statusString $XPPAUT_UPTODATE $XPPAUT_INSTALLED`
+numOptions=${#optionalNames[@]}
+for (( i = 0 ; i < $numOptions ; i++ ))
+do
+#  options="$options ${optionalNames[i]} \"(${optionalSizes[i]}) ${optionalBrief[i]}\" ${optionalStatus[i]}"
+  options="$options ${optionalNames[i]} \"(${optionalSizes[i]} MB) ${softwareStatus[i]}\" ${optionalStatus[i]}"
+  if [ "${optionalStatus[i]}" == "on" ]; then
+    softwareList="$softwareList ${optionalNames[i]}"
+  fi
+done
+if [ $AUTOMATIC == "no" ]; then
+  cmd="dialog --colors --nocancel --no-collapse --backtitle \"SOFTWARE SELECTION\" --checklist \"Use the up and down arrows and space bar to make selections. Hit return when you are done.\n${BY}NOTES:${N}\n ~ Approximate install sizes are in parentheses (in MB).\n ~ Unselected software will ${BY}NOT${N} be uninstalled.\n ~ Selected software that is already installed ${BY}WILL${N} be reinstalled.\n ~ This script may be run again to install more options later.\" 19 74 8 $options 2> $tempfile"
+  eval $cmd
+  softwareList=`cat $tempfile`
+fi
+logBreak
+echo "Beginning install..." >> $LOGFILE
+date >> $LOGFILE
+
+#####################
+# Update repository #
+#####################
+newsflash "Updating package repository...\n\nThis may take a few minutes. It depends on your internet speed."
+trycommand "apt-get update -y"
+# Upgrade if requested
+upgradeRequested=`echo $softwareList | grep Update`
+if ([ $AUTOMATIC == "yes" ] && [ $UPGRADE == "yes" ]) || ([ $AUTOMATIC == "no" ] && [ ! -z "$upgradeRequested" ]); then
+  newsflash "Upgrading installed packages...\n\nThis may take a ${BY}LONG${N} time. It depends on your internet speed and how many packages need to be upgraded."
+  trycommand "apt-get dist-upgrade -y"
+fi
+
+#################
+# Install Lurch #
+#################
+if [ ! -z "$(echo $softwareList | grep Lurch)" ]; then
+  newsflash "Compiling lurch in the background...\n\nIf Qt is not already installed, you will see the Qt installation wizard pop up in a few minutes. Please install Qt according to the wizard, accepting the defaults. If you change any of them, Lurch may not install.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/lurchCompile.log\n\nPress Enter to continue." $interactive
+  makeTempUser
+  makedirectory "$mathbuntuLocal/lurch"
+  trycommand "apt-get install -y $compilePkgs $compileLurchPkgs"
+  ./compileLurch.sh $mathbuntuLocal/lurch $ARCHITECTURE $nobody > /tmp/lurchCompile.log 2>&1 &
+  lurchPid=$!
+fi
+
+##################
+# Install Octave #
+##################
+if [ ! -z "$(echo $softwareList | grep Octave)" ]; then
+  newsflash "Compiling Octave in the background...\n\nWill move on to other things in a few minutes (maybe as long as a half hour, or more if your internet connection is slow) and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/octaveCompile.log"
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs $compileOctavePkgs"
+  trycommand "wget -P /tmp $octaveServer"
+  ./compileOctave.sh $octaveFile $octaveDir $nobody > /tmp/octaveCompile.log 2>&1 &
+  octavePid=$!
+fi
+
+##################
+# Install Maxima #
+##################
+if [ ! -z "$(echo $softwareList | grep Maxima)" ]; then
+  newsflash "Compiling Maxima in the background...\n\nWill move on to other things in a few minutes and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/maximaCompile.log"
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs $compileMaximaPkgs"
+  trycommand "wget -P /tmp $maximaServer"
+  ./compileMaxima.sh $maximaFile $maximaDir $nobody > /tmp/maximaCompile.log 2>&1 &
+  maximaPid=$!
+fi
+
+####################
+# Install wxMaxima #
+####################
+if [ ! -z "$(echo $softwareList | grep Wxmaxima)" ]; then
+  newsflash "Compiling wxMaxima in the background...\n\nWill move on to other things in a few minutes and check on its progress later.\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/wxmaximaCompile.log"
+  makeTempUser
+  makedirectory "$mathbuntuLocal/wxMaxima"
+  trycommand "apt-get install -y $compilePkgs $compileWxmaximaPkgs"
+  trycommand "wget -O /tmp/$wxmaximaFile $wxmaximaServer"
+  ./compileWxmaxima.sh $wxmaximaFile $wxmaximaDir $nobody > /tmp/wxmaximaCompile.log 2>&1 &
+  wxmaximaPid=$!
+fi
+
+##################
+# Install Xppaut #
+##################
+trycommand "mkdir -p $mathbuntuLocal/$xppautDir"
+if [ "$ARCHITECTURE" == "i386" ] && [ ! -z "$(echo $softwareList | grep Xppaut)" ]; then
+  newsflash "Compiling xppaut from source...\n\nThis is a reasonably small package, so it will be downloaded and compiled right now. Hang on just a few minutes."
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs"
+  trycommand "wget -P /tmp $xppautServer/$xppautFile"
+  ./compileXppaut.sh $xppautFile $xppautDir $mathbuntuLocal $nobody > /tmp/xppautCompile.log 2>&1
+  echo "Done. See /tmp/xppautCompile.log for details." >> $LOGFILE
+  if checkMd5sum "$mathbuntuLocal/$xppautDir/$xppautIcon" $xppautIconMd5sum; then
+    echo "xppaut icon is already installed." >> $LOGFILE
+  else
+    trycommand "wget -P /tmp $xppautServer/binary/$xppautIcon"
+    trycommand "cp /tmp/$xppautIcon $mathbuntuLocal/$xppautDir"
+  fi
+fi
+
+################
+# Install Sage #
+################
+if [ ! -z "$(echo $softwareList | grep Sagemath)" ]; then
+  newsflash "Compiling sage in the background...\n\nWill move on to other things as soon as possible and check on its progress later. Don't be surprised if it takes a half an hour or so to move on. The Sage download is huge!\n\nIf you are curious to see the progress of the compilation, open a new terminal window and issue the following command (all on one line).\n\n   tail -f /tmp/sageCompile.log"
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs $compileSagePkgs"
+  trycommand "wget -P /tmp $sageServer"
+  trycommand "aria2c -d /tmp --seed-time=10 /tmp/$sageMetaFile"
+  ./compileSage.sh "$sageFile" "$sageDir" "$mathbuntuLocal/sage" "$nobody" > /tmp/sageCompile.log 2>&1 &
+  sagePid=$!
+fi
+
+##################################################
+# Install optional math packages from repository #
+##################################################
+if [ ! -z "$(echo $softwareList | grep Scilab)" ]; then
+  mathPkgs="$mathPkgs $scilabPkgs"
+fi
+if [ ! -z "$(echo $softwareList | grep LyX)" ]; then
+  mathPkgs="$mathPkgs $lyxPkgs"
+fi
+if [ ! -z "$(echo $softwareList | grep Gap)" ]; then
+  mathPkgs="$mathPkgs $gapPkgs"
+fi
+if [ ! -z "$(echo $softwareList | grep R)" ]; then
+  mathPkgs="$mathPkgs $rPkgs"
+fi
+if [ ! -z "$mathPkgs" ]; then
+  newsflash "Installing requested mathematical packages...\n\nSome of the software you requested will be installed from the $FLAVOR repositories. This may or may not take long, depending on how many of these packages need to be installed or updated."
+  trycommand "apt-get install -y $mathPkgs"
+fi
+
+#####################################################
+# Install non-mathematical software from repository #
+#####################################################
+newsflash "Installing non-mathematical packages...\n\nWill install a small selection of non-mathematical packages, like the Gimp, that may make your computing life a little easier."
+trycommand "apt-get install -y $nonmathPkgs"
+
+#################################################
+# Install mathematical software from repository #
+#################################################
+newsflash "Installing common mathematical packages...\n\nNow installing\n ~ TeXmaker, a LaTeX editor\n ~ TeXlive, a complete TeX installation\n ~ ipe, a graphics drawing tool\n ~ gnuplot, a utility for plotting functions"
+trycommand "apt-get install -y $commonMathPkgs"
+
+####################################################
+# Install flavor-specific software from repository #
+####################################################
+if [ "$FLAVOR" == "Ubuntu" ]; then
+  newsflash "Installing ${FLAVOR}-specific software..."
+  trycommand "apt-get install -y $gnomePkgs"
+fi
+if [ "$FLAVOR" == "Kubuntu" ]; then
+  newsflash "Installing ${FLAVOR}-specific software..."
+  trycommand "apt-get install -y $kdePkgs"
+fi
+
+#############################
+# Install Mathbuntu tarball #
+#############################
+newsflash "Creating backup files...\n\nCustomizing a couple of things."
+# mozpluggerrc
+fn="/etc/mozpluggerrc"
+if [ -f $fn ]; then
+  trycommand "mv -n $fn $fn.mathbuntuSave"
+fi
+# 62-documents.conf
+fn="/etc/mozpluggerrc.d/62-documents.conf"
+if [ -f $fn ]; then
+  trycommand "mv -n $fn $fn.mathbuntuSave"
+fi
+if [ -z "$CUSTOMFILES_INSTALLED" ] || ([ ! -z "$CUSTOMFILES_INSTALLED" ] && [ "$CUSTOMFILES_UPTODATE" == "no" ]); then
+  newsflash "Installing Mathbuntu files...\n\nThere aren't a lot of them, so this should not take long."
+  mathbuntuTarball="mathbuntu$VERSION.tar.gz"
+    trycommand "aria2c -d /tmp http://www.mathbuntu.org/tarball/$mathbuntuTarball"
+    trycommand "tar -C / --no-same-owner -xzvf /tmp/$mathbuntuTarball"
+  if checkMd5sum "/tmp/$mathbuntuTarball" $mathbuntuTarballMd5sum; then
+    echo "$mathbuntuTarballMd5sum" > $mathbuntuCheckFile
+  fi
+fi
+
+#####################
+# Install textbooks #
+#####################
+htmlDest="./textIndex.html"
+cp -f ./textHead.html $htmlDest
+numTexts=$(( ${#textbook[@]} / 10 ))
+newsflash "Installing textbooks...\n\nBe patient. Downloading or updating
+$numTexts textbooks. Time will depend on how many books need to be installed
+or updated, and your internet speed. This could take an hour or more."
+echoTableStart >> $htmlDest
+lastCategory="none"
+for (( i = 0 ; i < $numTexts ; i++ ))
+do
+  subdir=`echo ${textbook[10*i+9]} | sed 's/_//g'`
+  textbookSubdir="$textbookDestDir/$subdir"
+  category=`echo ${textbook[10*i+9]} | sed 's/_/ /g'`
+  if [ "$category" != "$lastCategory" ]; then
+    echo "<tr><td colspan=\"5\" style=\"text-align:center; font-weight:bold;\"><br /><big>$category</big></td></tr>" >> $htmlDest
+    if [ -e "$textbookSubdir" ] && [ ! -d "$textbookSubdir" ]; then
+      rm -f "$textbookSubdir"
+    fi
+    if [ ! -e "$textbookSubdir" ]; then
+      mkdir -p "$textbookSubdir"
+    fi
+  fi
+  destPath=$textbookSubdir/${textbook[10*i+5]}
+  md5sum=${textbook[10*i+8]}
+  if checkMd5sum $destPath $md5sum; then
+    echo "${textbook[10*i+5]} is already installed." >> $LOGFILE
+  else
+    downloadURL=${textbook[10*i+1]}
+    sourceName=${textbook[10*i+4]}
+    if [ ${textbook[10*i+1]:0:4} == "WGET" ]; then
+      com="wget -P"
+      downloadURL=${textbook[10*i+1]:4}
+    else
+      com="aria2c -d"
+    fi
+    cp -f ./pdfNotAvailable.pdf $destPath
+    trycommand "$com /tmp $downloadURL"
+    trycommand "mv -f /tmp/$sourceName $destPath"
+    verifyList[4*$verifyCount]=$destPath
+    verifyList[4*$verifyCount+1]=$md5sum
+    verifyList[4*$verifyCount+2]=$downloadURL
+    verifyList[4*$verifyCount+3]=$sourceName
+    verifyCount=$(( $verifyCount + 1 ))
+  fi
+  echo "<tr><td></td>" >> $htmlDest
+  echo "<td><a target=\"_blank\" href=\"${textbook[10*i]}\"><span class=\"headword\">${textbook[10*i+6]}</span><br>${textbook[10*i+7]}</a></td>" >> $htmlDest
+  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"pdfs/$subdir/${textbook[10*i+5]}\"><img border=\"0\" src=\"/usr/local/share/mathbuntu/acroread/acroread.png\"></a></td>" >> $htmlDest
+  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"${textbook[10*i+2]}\"><img border=\"0\" src=\"${textbook[10*i+3]}\"></a></td>" >> $htmlDest
+  echo "<td><br></td></tr>" >> $htmlDest
+  lastCategory=$category
+done
+echoTableEnd >> $htmlDest
+cp -f $htmlDest $htmlDestDir
+
+##################################
+# Install software documentation #
+##################################
+# Geogebra
+newsflash "Installing Geogebra documentation..."
+installDocumentation $geogebraDocList "./geogebraHead.html" "./geogebraIndex.html" $htmlDestDir $documentationDestDir "GeoGebra"
+# Maxima
+newsflash "Installing Maxima documentation..."
+trycommand "cp wxmaximaSamples.html $htmlDestDir"
+installDocumentation $maximaDocList "./wxmaximaHead.html" "./wxmaximaIndex.html" $htmlDestDir $documentationDestDir "Maxima"
+# R
+newsflash "Installing R documentation..."
+installDocumentation $rDocList "./rHead.html" "./rIndex.html" $htmlDestDir $documentationDestDir "R"
+# SAGE
+newsflash "Installing SAGE documentation..."
+installDocumentation $sageDocList "./sageHead.html" "./sageIndex.html" $htmlDestDir $documentationDestDir "Sage"
+
+######################
+# Install other apps #
+######################
+# GeoGebra
+if [ ! -z "$(echo $softwareList | grep GeoGebra)" ]; then
+  newsflash "Installing GeoGebra...\n\nRetrieving package from geogebra.org."
+  trycommand "aria2c -d /tmp $geogebraServer/$geogebraFile"
+  trycommand "apt-get remove -y geogebra"
+  trycommand "apt-get remove -y geogebra44"
+  trycommand "dpkg -i /tmp/geogebra*deb"
+fi
+# Rstudio
+if [ ! -z "$(echo $softwareList | grep Rstudio)" ]; then
+  newsflash "Installing Rstudio...\n\nRetrieving package from rstudio.com."
+  trycommand "apt-get install -y $rstudioDependencies"
+  trycommand "aria2c -d /tmp $rstudioServer$rstudioFile"
+  trycommand "dpkg -i /tmp/$rstudioFile"
+fi
+# NetLogo
+if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
+  newsflash "Installing NetLogo...\n\nRetrieving package from northwestern.edu"
+  trycommand "aria2c -d /tmp $netlogoServer/$netlogoFile"
+  trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoFile"
+  echo "#!/bin/bash" > /usr/local/bin/netlogo
+  echo "cd $mathbuntuLocal/$netlogoDir && ./netlogo.sh" >> /usr/local/bin/netlogo
+  chmod 755 /usr/local/bin/netlogo
+  echo "$netlogoCandidateVersion" > "$mathbuntuLocal/$netlogoDir/version"
+fi
+# Jslideshow:
+echo "Installing Jslideshow..." >> $LOGFILE
+trycommand "aria2c -d /tmp http://sourceforge.net/projects/jslideshow/files/jslideshow-installer/0.92/UbuntuInstaller.tar.gz/download"
+trycommand "tar -C /tmp -xzvf /tmp/UbuntuInstaller.tar.gz"
+trycommand "/tmp/Jslideshow-installer/installJslideshow skipupdate"
+echo >> $LOGFILE
+# Pidgin LaTeX:
+if [ -z "$PIDGINLATEX_INSTALLED" ] || ([ ! -z "$PIDGINLATEX_INSTALLED" ] && [ "$PIDGINLATEX_UPTODATE" == "no" ]); then
+  newsflash "Installing Pidgin LaTeX...\n\nThis should be quick. Once installed you will be able to send and receive IM's with mathematical symbols! As long as the person on the other end is also using Pidgin-LaTex."
+  makeTempUser
+  trycommand "apt-get install -y $compilePkgs $compilePidginLatexPkgs"
+  trycommand "aria2c -d /tmp $pidginLatexServer"
+  ./compilePidginLatex.sh $pidginLatexFile $pidginLatexDir $nobody > /tmp/pidginLatexCompile.log 2>&1
+  if [ -f $pidginLatexTarget ]; then
+    echo "$pidginLatexCandidateVersion" > "$mathbuntuLocal/pidginLatexVersion"
+  fi
+  echo "Done. See /tmp/pidginLatexCompile.log for details." >> $LOGFILE
+fi
+
+newsflash "Tying up loose ends. Installation is almost complete..."
+############################
+# Create wxMaxima mimetype #
+############################
+installMaximaMimetype=`find /usr/share/icons -name wxmaxima\*`
+if [ -z "$installMaximaMimetype" ]; then
+  trycommand "xdg-mime install --mode system --novendor wxmaxima.xml"
+  size="128 64 48 32 16"
+  for s in $size; do
+    trycommand "xdg-icon-resource install --noupdate --context mimetypes --theme hicolor --size $s --novendor --mode system wxmaxima$s.png application-x-wxmaxima"
+    trycommand "xdg-icon-resource install --noupdate --context apps --size $s --novendor --mode system wxmaxima$s.png wxmaxima"
+  done
+  trycommand "update-mime"
+  trycommand "update-icon-caches /usr/share/icons/hicolor/"
+fi
+
+#########################
+# Create Lurch mimetype #
+#########################
+installLurchMimetype=`find /usr/share/icons -name lurch\*`
+if [ -z "$installLurchMimetype" ]; then
+  trycommand "xdg-mime install --mode system --novendor lurch.xml"
+  size="128 64 48 32 16"
+  for s in $size; do
+    trycommand "xdg-icon-resource install --noupdate --context mimetypes --theme hicolor --size $s --novendor --mode system lurch$s.png application-x-lurch"
+    trycommand "xdg-icon-resource install --noupdate --context apps --size $s --novendor --mode system lurch$s.png lurch"
+  done
+  trycommand "update-mime"
+  trycommand "update-icon-caches /usr/share/icons/hicolor/"
+fi
+
+########################
+# Create sage mimetype #
+########################
+installSageMimetype=`find /usr/share/icons -name sagemath.png`
+if [ -z "$installSageMimetype" ]; then
+  trycommand "xdg-mime install --mode system --novendor sagemath.xml"
+  size="128 64 48 32 16"
+  for s in $size; do
+    trycommand "xdg-icon-resource install --noupdate --context mimetypes --theme hicolor --size $s --novendor --mode system sagemath$s.png application-x-sagemath"
+    trycommand "xdg-icon-resource install --noupdate --context apps --size $s --novendor --mode system sagemath$s.png sagemath"
+  done
+  trycommand "update-mime"
+  trycommand "update-icon-caches /usr/share/icons/hicolor/"
+fi
+
+##########################
+# Create octave mimetype #
+##########################
+installOctaveMimetype=`find /usr/share/icons -name octave.png`
+if [ -z "$installOctaveMimetype" ]; then
+  trycommand "xdg-mime install --mode system --novendor octave.xml"
+  size="128 64 48 32 16"
+  for s in $size; do
+    trycommand "xdg-icon-resource install --noupdate --context mimetypes --theme hicolor --size $s --novendor --mode system octave$s.png application-x-octave"
+    trycommand "xdg-icon-resource install --noupdate --context apps --size $s --novendor --mode system octave$s.png octave"
+  done
+  trycommand "update-mime"
+  trycommand "update-icon-caches /usr/share/icons/hicolor/"
+fi
+
+###########################
+# Fix broken dependencies #
+###########################
+trycommand "apt-get -y -f install"
+trycommand "apt-get -y autoremove"
+
+###############################
+# Run any extra configuration #
+###############################
+# Update mozplugger
+if float_cond "$VERSION > 11.0"; then
+  trycommand "update-mozpluggerrc"
+fi
+trycommand "mkdir -p /etc/skel/Desktop/Online\ Resources"
+# Add desktop shortcuts to /etc/skel
+# Automatically installed
+doctorDesktopItem "firefox.desktop"
+doctorDesktopItem "freebooks.desktop"
+doctorDesktopItem "ipe.desktop"
+if [ "$FLAVOR" == "Kubuntu" ]; then
+  doctorDesktopItem "kate.desktop"
+else
+  doctorDesktopItem "geany.desktop"
+fi
+if [ "$FLAVOR" != "Lubuntu" ]; then
+  doctorDesktopItem "libreoffice-startcenter.desktop"
+fi
+# Optional
+if [ ! -z "$(echo $softwareList | grep GeoGebra)" ]; then
+  doctorDesktopItem "geogebra.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Lurch)" ]; then
+  doctorDesktopItem "lurch.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep LyX)" ]; then
+  doctorDesktopItem "lyx.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
+  doctorDesktopItem "netlogo.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Octave)" ]; then
+  doctorDesktopItem "octave.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Rstudio)" ]; then
+  doctorDesktopItem "rstudio.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Sagemath)" ]; then
+  doctorDesktopItem "sagemath.desktop"
+fi
+if [ ! -z "$(echo $softwareList | grep Wxmaxima)" ]; then
+  doctorDesktopItem "wxmaxima.desktop"
+fi
+# Automatically installed online resources
+doctorDesktopItem "aim.desktop" "Online Resources"
+doctorDesktopItem "calcplot3d.desktop" "Online Resources"
+doctorDesktopItem "cuttheknot.desktop" "Online Resources"
+doctorDesktopItem "khanacademy.desktop" "Online Resources"
+doctorDesktopItem "myopenmath.desktop" "Online Resources"
+doctorDesktopItem "ocw.desktop" "Online Resources"
+doctorDesktopItem "sageonline.desktop" "Online Resources"
+doctorDesktopItem "saylor.desktop" "Online Resources"
+doctorDesktopItem "wolframalpha.desktop" "Online Resources"
+
+#######################################
+# Copy skeleton into user directories #
+#######################################
+users=`ls /home`
+for u in $users; do
+  su $u -c "cp -rn /etc/skel/Desktop /home/$u/"
+  su $u -c "cp -rn /etc/skel/.purple /home/$u/"
+  if [ -d "/home/$u/.mozilla/" ]; then
+    trycommand "find /home/$u/.mozilla/ -name pluginreg.dat | xargs rm -f"
+  fi
+  if [ -d "/home/$u/.netscape/" ]; then
+    trycommand "find /home/$u/.netscape/ -name plugin-list | xargs rm -f"
+  fi
+done
+
+####################
+# Verify downloads #
+####################
+newsflash "Verifying downloads..."
+numFiles=$(( ${#verifyList[@]} / 4 ))
+for (( i = 0 ; i < $numFiles ; i++ ))
+do
+  if verifyFile "${verifyList[4*i]}" "${verifyList[4*i+1]}" "${verifyList[4*i+2]}" "${verifyList[4*i+3]}"; then
+    echo "Verified: ${verifyList[4*i]}" >> $LOGFILE
+  else
+    echo "WARNING: Can not verify ${verifyList[4*i]}." >> $LOGFILE
+  fi
+done
+
+####################################
+# Bring compilations to foreground #
+####################################
+if [ ! -z "$wxmaximaPid" ]; then
+  newsflash "Waitng for wxMaxima to finish compiling...\n\nPlease be patient. This could take a long time if the compilation is still in progress."
+  wait $wxmaximaPid
+  wxmaximaInstalled=`which wxmaxima`
+  if [ ! -z "$wxmaximaInstalled" ]; then
+    echo "$wxmaximaCandidateVersion" > "$mathbuntuLocal/wxMaxima/version"
+  else
+    echo "Failure::Installation of wxMaxima failed. :\(" >> $LOGFILE
+  fi
+fi
+if [ ! -z "$maximaPid" ]; then
+  newsflash "Waiting for Maxima to finish compiling...\n\nPlease be patient. This could take a long time if the compilation is still in progress."
+  wait $maximaPid
+fi
+if [ ! -z "$octavePid" ]; then
+  newsflash "Waiting for Octave to finish compiling...\n\nPlease be patient. This could take hours if the compilation is still in progress."
+  wait $octavePid
+fi
+if [ ! -z "$lurchPid" ]; then
+  newsflash "Waiting for Lurch to finish compiling...\n\nPlease be patient. This could take a long time if the compilation is still in progress."
+  wait $lurchPid
+  lurchInstalled=`which lurch`
+  if [ ! -z "$lurchInstalled" ]; then
+    echo "$lurchCandidateVersion" > "$mathbuntuLocal/lurch/version"
+  else
+    echo "Failure::Installation of Lurch failed. :\(" >> $LOGFILE
+  fi
+fi
+if [ ! -z "$sagePid" ]; then
+  newsflash "Waiting for Sage to finish compiling...\n\nPlease be patient. This could take ${BY}HOURS${N} if the compilation is still in progress."
+  wait $sagePid
+fi
+
+############################################
+# Remove temporary user and temporary file #
+############################################
+trycommand "deleteTempUser"
+trycommand "rm -f $tempfile"
+
+###################################################
+# Output Done message and close LOGFILE with date #
+###################################################
+date >> $LOGFILE
+newsflash "Done.\n\nInstallation is complete. Enjoy Mathbuntu!\n\nPress Enter to confirm." $interactive

@@ -1,0 +1,33 @@
+######################################################
+# DOCUMENTATION: 8 lines per document:               #
+# 0) General information URL                         #
+# 1) pdf download URL                                #
+# 2) license URL                                     #
+# 3) license icon                                    #
+# 4) source filename                                 #
+# 5) destination filename                            #
+# 6) Brief Title (in HTML, no spaces)                #
+# 7) md5sum                                          #
+######################################################
+#
+# Last updated  8 April 2015
+#
+#
+http://www.geogebra.org/cms/help
+http://www.geogebra.org/help/geogebraquickstart_en.pdf
+http://www.geogebra.org/cms/help
+pngs/help-contents.png
+geogebraquickstart_en.pdf
+geogebraQuickstart.pdf
+Quickstart
+9ab12a14e06d7d25a910be4f28b8bc0f
+#
+#
+http://www.geogebra.org/book/intro-en/
+http://www.geogebra.org/book/intro-en.pdf
+http://www.geogebra.org/cms/help
+pngs/help-contents.png
+intro-en.pdf
+geogebraIntroduction.pdf
+Introduction
+918cd94531b95cb546aa67fb64905d85

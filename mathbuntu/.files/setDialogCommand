@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIALOG="dialog --colors"
+BOXSIZE="18 68"
+if [ -z $(which dialog) ]; then
+	DIALOG="echo"
+	BOXSIZE=""
+fi
+BB="\Zb" # bold
+BR="\Z1" # red
+BY="\Z3" # yellow
+BC="\Z6" # cyan
+BW="\Z7" # white
+N="\Zn"

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+FLAVOR="Ubuntu"
+
+# Check for Kubuntu
+Kcheck=`grep -i kubuntu /etc/apt/sources.list`
+if [ ! -z "$Kcheck" ]; then
+  FLAVOR="Kubuntu"
+fi
+
+# Check for Lubuntu
+Lcheck=`grep -i lubuntu /etc/apt/sources.list`
+if [ ! -z "$Lcheck" ]; then
+  FLAVOR="Lubuntu"
+fi

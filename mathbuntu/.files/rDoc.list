@@ -1,0 +1,63 @@
+######################################################
+# DOCUMENTATION: 8 lines per document:               #
+# 0) General information URL                         #
+# 1) pdf download URL                                #
+# 2) license URL                                     #
+# 3) license icon                                    #
+# 4) source filename                                 #
+# 5) destination filename                            #
+# 6) Brief Title (in HTML, no spaces)                #
+# 7) md5sum                                          #
+######################################################
+#
+# Last updated 15 April 2015
+#
+#
+http://cran.r-project.org/manuals.html
+http://cran.r-project.org/doc/manuals/R-intro.pdf
+http://cran.r-project.org/manuals.html
+pngs/help-contents.png
+R-intro.pdf
+rIntroduction.pdf
+R&nbsp;Introduction
+7d1dd191c8619c7e36c39ee218f34820
+#
+#
+http://cran.r-project.org/manuals.html
+http://cran.r-project.org/doc/manuals/fullrefman.pdf
+http://cran.r-project.org/manuals.html
+pngs/help-contents.png
+fullrefman.pdf
+rReferenceManuals.pdf
+R&nbsp;Reference
+9c205fd1d9c5450442c98b694d2e9bbd
+#
+#
+http://cran.r-project.org/manuals.html
+http://cran.r-project.org/doc/manuals/R-data.pdf
+http://cran.r-project.org/manuals.html
+pngs/help-contents.png
+R-data.pdf
+rDataImportExport.pdf
+Data&nbsp;Import&nbsp;and&nbsp;Export
+630f3fbfee3b4a2a72117d55953bebf0
+#
+#
+http://cran.r-project.org/manuals.html
+http://cran.r-project.org/doc/manuals/R-lang.pdf
+http://cran.r-project.org/manuals.html
+pngs/help-contents.png
+R-lang.pdf
+rLanguageDefinition.pdf
+Language&nbsp;Definition
+ad61e0e4cfefb5535166cda95045c75a
+#
+#
+http://cran.r-project.org/manuals.html
+http://cran.r-project.org/doc/manuals/R-exts.pdf
+http://cran.r-project.org/manuals.html
+pngs/help-contents.png
+R-exts.pdf
+rWritingExtensions.pdf
+Writing&nbsp;R&nbsp;Extensions
+371d511abd64e53f2f1cebd1999e113c

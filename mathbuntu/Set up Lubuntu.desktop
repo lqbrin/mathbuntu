@@ -1,0 +1,16 @@
+#!/usr/bin/xdg-open
+[Desktop Entry]
+Categories=Education;Math;
+Comment[en_US]=
+Comment=
+Exec=/etc/alternatives/x-terminal-emulator -e %k/.files/setup
+GenericName[en_US]=Install Mathematical Software
+GenericName=Install Mathematical Software
+Icon=system-software-install
+MimeType=
+Name[en_US]=MathLubuntu Set Up
+Name=MathLubuntu Set Up
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
