@@ -1,7 +1,27 @@
 #!/bin/bash
 
 path=$(dirname $0)
+mathbuntuLocal="/opt/mathbuntu"
 
+###############################################################
+# Check for internet connection. No sense in going on if none #
+###############################################################
+echo -n "Checking for internet connection..."
+up=`ping -c 1 -W 2 google.com -q 2> /dev/null`
+if [ -z "$up" ]; then
+	up=`ping -c 1 -W 2 yahoo.com -q 2> /dev/null`
+fi
+if [ -z "$up" ]; then
+	echo "None found."
+	echo
+	echo "It seems this computer is not connected to the internet.
+	A live connection is required for installation.
+	Exiting now. Bye."
+	echo
+	exit 1
+fi
+echo "OK."
+echo
 echo "This script will install a number of mathematical software titles"
 echo "on your computer. You need to have administrative privileges to"
 echo "do so. The account you set up when you installed *buntu has such"
@@ -16,5 +36,27 @@ echo
 echo "Hit Return now to continue."
 
 read junk
+
+sudo rm -f /tmp/mathbuntuVersion
+wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntuVersion
+thisVersion=`cat $path/mathbuntuVersion`
+if [ -z "$thisVersion" ]; then
+	thisVersion="no-this"
+fi
+thatVersion=`cat /tmp/mathbuntuVersion`
+if [ -z "$thatVersion" ]; then
+	thatVersion="no-that"
+fi
+if [ "$thisVersion" != "$thatVersion" ]; then
+	sudo rm -rf /tmp/mathbuntu.tar.gz
+	wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz
+	if [ ! -f "/tmp/mathbuntu.tar.gz" ]; then
+		echo "Unable to get latest installer."
+		echo "Perhaps next time..."
+	else
+		sudo tar -C $mathbuntuLocal -xzf /tmp/mathbuntu.tar.gz
+		path="$mathbuntuLocal/mathbuntu/.files"
+	fi
+fi
 
 sudo $path/installMathbuntu 2> $path/mathbuntu.err

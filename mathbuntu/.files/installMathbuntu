@@ -23,23 +23,6 @@
 #  Last updated 29 April 2014                                              #
 #                                                                          #
 
-###############################################################
-# Check for internet connection. No sense in going on if none #
-###############################################################
-echo "Checking for internet connection..."
-up=`ping -c 1 -W 2 google.com -q 2> /dev/null`
-if [ -z "$up" ]; then
-	up=`ping -c 1 -W 2 yahoo.com -q 2> /dev/null`
-fi
-if [ -z "$up" ]; then
-	echo
-	echo "It seems this computer is not connected to the internet.
-	A live connection is required for installation.
-	Exiting now. Bye."
-	echo
-	exit 1
-fi
-
 ###########################################
 # Set basic info and load install methods #
 ###########################################
@@ -483,12 +466,6 @@ if [ -z "$PIDGINLATEX_INSTALLED" ] || ([ ! -z "$PIDGINLATEX_INSTALLED" ] && [ "$
 fi
 
 newsflash "Tying up loose ends. Installation is almost complete..."
-# Mathbuntu Installer:
-echo "Installing Mathbuntu Installer..." >> $LOGFILE
-trycommand "wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz"
-trycommand "tar -C /opt/mathbuntu -xzf /tmp/mathbuntu.tar.gz"
-trycommand "cp /opt/mathbuntu/mathbuntu/.files/Set-up-$FLAVOR.desktop /usr/local/share/applications"
-echo >> $LOGFILE
 
 ############################
 # Create wxMaxima mimetype #
@@ -569,7 +546,6 @@ trycommand "mkdir -p /etc/skel/Desktop/Online\ Resources"
 doctorDesktopItem "firefox.desktop"
 doctorDesktopItem "freebooks.desktop"
 doctorDesktopItem "ipe.desktop"
-doctorDesktopItem "Set-up-$FLAVOR.desktop"
 if [ "$FLAVOR" == "Kubuntu" ]; then
   doctorDesktopItem "kate.desktop"
 else
@@ -613,21 +589,6 @@ doctorDesktopItem "ocw.desktop" "Online Resources"
 doctorDesktopItem "sageonline.desktop" "Online Resources"
 doctorDesktopItem "saylor.desktop" "Online Resources"
 doctorDesktopItem "wolframalpha.desktop" "Online Resources"
-
-#######################################
-# Copy skeleton into user directories #
-#######################################
-users=`ls /home`
-for u in $users; do
-  su $u -c "cp -rn /etc/skel/Desktop /home/$u/"
-  su $u -c "cp -rn /etc/skel/.purple /home/$u/"
-  if [ -d "/home/$u/.mozilla/" ]; then
-    trycommand "find /home/$u/.mozilla/ -name pluginreg.dat | xargs rm -f"
-  fi
-  if [ -d "/home/$u/.netscape/" ]; then
-    trycommand "find /home/$u/.netscape/ -name plugin-list | xargs rm -f"
-  fi
-done
 
 ####################
 # Verify downloads #
@@ -684,6 +645,34 @@ fi
 ############################################
 trycommand "deleteTempUser"
 trycommand "rm -f $tempfile"
+
+###############################
+# Install Mathbuntu Installer #
+###############################
+if [ "$workingDir" != "$mathbuntuLocal/mathbuntu/.files" ]; then
+  echo "Installing Mathbuntu Installer..." >> $LOGFILE
+  trycommand "rm -f /tmp/mathbuntu.tar.gz"
+  trycommand "wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz"
+  trycommand "tar -C $mathbuntuLocal -xzf /tmp/mathbuntu.tar.gz"
+  trycommand "cp $mathbuntuLocal/mathbuntu/.files/Set-up-$FLAVOR.desktop /usr/local/share/applications"
+  doctorDesktopItem "Set-up-$FLAVOR.desktop"
+  echo >> $LOGFILE
+fi
+
+#######################################
+# Copy skeleton into user directories #
+#######################################
+users=`ls /home`
+for u in $users; do
+  su $u -c "cp -rn /etc/skel/Desktop /home/$u/"
+  su $u -c "cp -rn /etc/skel/.purple /home/$u/"
+  if [ -d "/home/$u/.mozilla/" ]; then
+    trycommand "find /home/$u/.mozilla/ -name pluginreg.dat | xargs rm -f"
+  fi
+  if [ -d "/home/$u/.netscape/" ]; then
+    trycommand "find /home/$u/.netscape/ -name plugin-list | xargs rm -f"
+  fi
+done
 
 ###################################################
 # Output Done message and close LOGFILE with date #
