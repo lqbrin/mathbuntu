@@ -398,7 +398,7 @@ do
   fi
   echo "<tr><td></td>" >> $htmlDest
   echo "<td><a target=\"_blank\" href=\"${textbook[10*i]}\"><span class=\"headword\">${textbook[10*i+6]}</span><br>${textbook[10*i+7]}</a></td>" >> $htmlDest
-  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"pdfs/$subdir/${textbook[10*i+5]}\"><img border=\"0\" src=\"/usr/local/share/mathbuntu/acroread/acroread.png\"></a></td>" >> $htmlDest
+  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"pdfs/$subdir/${textbook[10*i+5]}\"><img border=\"0\" src=\"$mathbuntuLocal/acroread/acroread.png\"></a></td>" >> $htmlDest
   echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"${textbook[10*i+2]}\"><img border=\"0\" src=\"${textbook[10*i+3]}\"></a></td>" >> $htmlDest
   echo "<td><br></td></tr>" >> $htmlDest
   lastCategory=$category
