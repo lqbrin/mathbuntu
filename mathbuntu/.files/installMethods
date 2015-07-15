@@ -183,8 +183,8 @@ echoWxmaximaFirstRow()
 {
   echo "<tr><td></td>"
   echo "<td><a target=\"_blank\" href=\"http://wxmaxima.sourceforge.net\"><span class=\"headword\">Sample Files</span><br>http://wxmaxima.sourceforge.net/</a><br></td>"
-  echo "<td style=\"text-align: center;\"><a href=\"wxmaximaSamples.html\"><img border=\"0\" src=\"/usr/share/icons/oxygen/48x48/places/folder-brown.png\"></a></td>"
-  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"http://wxmaxima.sourceforge.net\"><img border=\"0\" src=\"/usr/share/icons/oxygen/48x48/actions/help-contents.png\"></a></td>"
+  echo "<td style=\"text-align: center;\"><a href=\"wxmaximaSamples.html\"><img border=\"0\" src=\"pngs/folder-documents.png\"></a></td>"
+  echo "<td style=\"text-align: center;\"><a target=\"_blank\" href=\"http://wxmaxima.sourceforge.net\"><img border=\"0\" src=\"pngs/help-contents.png\"></a></td>"
   echo "<td><br></td></tr>"
 }
 
