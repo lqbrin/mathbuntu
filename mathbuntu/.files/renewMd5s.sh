@@ -62,13 +62,16 @@ renewTextbookMd5sums()
     downloadURL=${textbook[10*i+1]}
     sourceName=${textbook[10*i+4]}
     if [ ${textbook[10*i+1]:0:4} == "WGET" ]; then
-      com="wget -P"
+      com="wget -P /tmp"
       downloadURL=${textbook[10*i+1]:4}
     else
-      com="aria2c -d"
+      com="aria2c -d /tmp"
     fi
-    echo "$com /tmp $downloadURL"
-    $com /tmp $downloadURL
+    if [ ${downloadURL:0:8} == "https://" ]; then
+      com="$com --check-certificate=false"
+    fi
+    echo "$com $downloadURL"
+    $com $downloadURL
     newMd5=`md5sum "/tmp/$sourceName" | awk -F'  ' '{print $1}'`
     oldMd5=${textbook[10*i+8]}
     if [ "$newMd5" != "$oldMd5" ]; then

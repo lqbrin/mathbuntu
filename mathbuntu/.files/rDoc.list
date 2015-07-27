@@ -10,7 +10,7 @@
 # 7) md5sum                                          #
 ######################################################
 #
-# Last updated 15 April 2015
+# Last updated 27 July 2015
 #
 #
 http://cran.r-project.org/manuals.html
@@ -20,7 +20,7 @@ pngs/help-contents.png
 R-intro.pdf
 rIntroduction.pdf
 R&nbsp;Introduction
-7d1dd191c8619c7e36c39ee218f34820
+f515c19c808f48076698f7982a767196
 #
 #
 http://cran.r-project.org/manuals.html
@@ -30,7 +30,7 @@ pngs/help-contents.png
 fullrefman.pdf
 rReferenceManuals.pdf
 R&nbsp;Reference
-9c205fd1d9c5450442c98b694d2e9bbd
+1264f9049b6839089f98583289c11af4
 #
 #
 http://cran.r-project.org/manuals.html
@@ -40,7 +40,7 @@ pngs/help-contents.png
 R-data.pdf
 rDataImportExport.pdf
 Data&nbsp;Import&nbsp;and&nbsp;Export
-630f3fbfee3b4a2a72117d55953bebf0
+0ba26433f882a68508b5c34ae783757a
 #
 #
 http://cran.r-project.org/manuals.html
@@ -50,7 +50,7 @@ pngs/help-contents.png
 R-lang.pdf
 rLanguageDefinition.pdf
 Language&nbsp;Definition
-ad61e0e4cfefb5535166cda95045c75a
+04db6b189dfb6b22c057ee7d03bf2ecb
 #
 #
 http://cran.r-project.org/manuals.html
@@ -60,4 +60,4 @@ pngs/help-contents.png
 R-exts.pdf
 rWritingExtensions.pdf
 Writing&nbsp;R&nbsp;Extensions
-371d511abd64e53f2f1cebd1999e113c
+1dc733bbf2a0fc25df4113028d47f39d

@@ -387,6 +387,9 @@ do
     else
       com="aria2c -d /tmp -o $sourceName"
     fi
+    if [ ${downloadURL:0:8} == "https://" ]; then
+      com="$com --check-certificate=false"
+    fi
     cp -f ./pdfNotAvailable.pdf $destPath
     trycommand "$com $downloadURL"
     trycommand "mv -f /tmp/$sourceName $destPath"

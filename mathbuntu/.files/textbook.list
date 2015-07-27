@@ -12,7 +12,7 @@
 # 9) Category                                        #
 ######################################################
 #
-# Last updated  8 April 2015
+# Last updated 27 July 2015
 #
 #
 http://www.math.miami.edu/~ec/book/
@@ -71,7 +71,7 @@ multivariable.pdf
 Calculus-Guichard.pdf
 Calculus
 David&nbsp;Guichard&nbsp;and&nbsp;Others
-500ad8105d90de20fca99786cfd2532f
+ea6cea8120ef2643736e02051089ca7d
 Calculus
 #
 #
@@ -131,7 +131,7 @@ complex.pdf
 FirstCourseInComplexAnalysis-Beck.pdf
 A&nbsp;First&nbsp;Course&nbsp;in&nbsp;Complex&nbsp;Analysis
 Mathias&nbsp;Beck
-5446875bafd014e228781b2230c6a6f8
+62998e79b0eeccb6857b0adc508f1e47
 Complex_Analysis
 #
 #
@@ -203,7 +203,7 @@ GIAM.pdf
 GentleIntroductionToTheArtOfMathematics-Fields.pdf
 A&nbsp;Gentle&nbsp;Introduction&nbsp;to&nbsp;the<br>Art&nbsp;of&nbsp;Mathematics
 Joseph&nbsp;Fields
-53f39c939c65ef3399ef96e7cb67849d
+32b0c3b3b67fbba8ae4b85fb3d72ffe4
 Foundations
 #
 #
@@ -215,7 +215,7 @@ GIAM-hw.pdf
 GentleIntroductionToTheArtOfMathematicsWorkbook-Fields.pdf
 A&nbsp;Gentle&nbsp;Introduction&nbsp;to&nbsp;the<br>Art&nbsp;of&nbsp;Mathematics&nbsp;(<small>Workbook</small>)
 Joseph&nbsp;Fields
-e307696f1543770c8b238033df7eacc5
+983e59f7f81b01fa5595d924c081ba51
 Foundations
 #
 #
@@ -227,7 +227,7 @@ BookOfProof.pdf
 BookOfProof-Hammack.pdf
 Book&nbsp;of&nbsp;Proof
 Richard&nbsp;Hammack
-4d286697803928d32e167a9edfa6903a
+c03daed59eb62741a36c0e1b8fa95bc2
 Foundations
 #
 #
@@ -292,10 +292,10 @@ History_of_Mathematics
 #
 #
 http://www.gutenberg.org/ebooks/8746
-http://www.gutenberg.org/dirs/etext05/hsmmt10p.pdf
+http://www.gutenberg.org/files/8746/8746-pdf.pdf
 http://en.wikipedia.org/wiki/Wikipedia:Public_domain
 pngs/publicDomain.png
-hsmmt10p.pdf
+8746-pdf.pdf
 HistoryOfModernMathematics-Smith.pdf
 History&nbsp;of&nbsp;Modern&nbsp;Mathematics
 Davide&nbsp;Eugene&nbsp;Smith
@@ -448,14 +448,14 @@ Probability_and_Statistics
 #
 #
 https://openstaxcollege.org/textbooks/introductory-statistics
-https://openstaxcollege.org/files/textbook_version/hi_res_pdf/15/col11562-op.pdf
+https://openstaxcollege.org/files/textbook_version/hi_res_pdf/15/col11562-OP.pdf
 http://creativecommons.org/licenses/by/3.0/
 pngs/cc-by-88x31.png
-col11562-op.pdf
+col11562-OP.pdf
 IntroductoryStatistics-OpenstaxCollege.pdf
 Introductory&nbsp;Statistics
 OpenStax&nbsp;College
-61424c5e4c343d2c047760465df9a920
+1323030d232c96f3371077bd2bb04e23
 Probability_and_Statistics
 #
 #
@@ -499,11 +499,11 @@ http://textbooks.opensuny.org/how-we-got-from-there-to-here-a-story-of-real-anal
 http://textbooks.opensuny.org/download/asora_ebook-pdf/
 http://creativecommons.org/licenses/by-nc-sa/3.0/
 pngs/cc-by-nc-sa-88x31.png
-ASORA_ebook.pdf
+index.html
 StoryOfRealAnalysis-Rogers.pdf
 A&nbsp;Story&nbsp;of&nbsp;Real&nbsp;Analysis
 Robert&nbsp;Rogers&nbsp;and&nbsp;Eugene&nbsp;Boman
-287fe8d66194d3754c5dfbc597703993
+8efe46773a6f850c724e8be45860bb9b
 Real_Analysis
 #
 #
