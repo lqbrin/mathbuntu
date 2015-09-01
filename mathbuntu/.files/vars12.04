@@ -20,7 +20,7 @@ automaticSizes="1000        960      120         115  1           ?"
 compilePkgs="automake gcc gfortran make g++ openjdk-7-jdk cpp binutils spyder"
 
 # Math base:    663      287     7   3      (sizes)
-commonMathPkgs="texmaker texlive ipe gnuplot"
+commonMathPkgs="texmaker texlive ipe gnuplot-x11"
 
 # Non-math base
 nonmathPkgs="geany filezilla firefox gimp gimp-help-en mozplugger openjdk-7-jdk icedtea-7-plugin pidgin gsfonts-x11 fonts-breip fonts-dustin fonts-f500 ttf-femkeklaver ttf-fifthhorseman-dkg-handwriting ttf-georgewilliams ttf-isabella ttf-jsmath fonts-century-catalogue ttf-lyx"
@@ -68,15 +68,15 @@ lurchCandidateVersion="3650"
 lurchServer="https://lurch.svn.sourceforge.net/svnroot/lurch/Lurch/trunk"
 
 # Octave
-compileOctavePkgs="libsuitesparse-dev libcurl4-gnutls-dev libqrupdate-dev libglpk-dev libqhull-dev libhdf5-serial-dev graphicsmagick-libmagick-dev-compat libfftw3-dev libpcre3-dev libreadline-dev gnuplot libarpack2-dev libqscintilla2-dev libfltk1.3-dev libgl2ps-dev gperf flex bison texinfo texlive"
-octaveCandidateVersion="3.8.2"
+compileOctavePkgs="libsuitesparse-dev libcurl4-gnutls-dev libqrupdate-dev libglpk-dev libqhull-dev libhdf5-serial-dev graphicsmagick-libmagick-dev-compat libfftw3-dev libpcre3-dev libreadline-dev gnuplot-x11 libarpack2-dev libqscintilla2-dev libfltk1.3-dev libgl2ps-dev gperf flex bison texinfo texlive"
+octaveCandidateVersion="4.0.0"
 octaveDir="octave-$octaveCandidateVersion"
 octaveFile="$octaveDir.tar.gz"
 octaveServer="ftp://ftp.gnu.org/gnu/octave/$octaveFile"
 
 # Rstudio
-rstudioCandidateVersion="0.98"
-rstudioCandidateSubversion="1103"
+rstudioCandidateVersion="0.99"
+rstudioCandidateSubversion="473"
 rstudioCandidateFullVersion=$rstudioCandidateVersion.$rstudioCandidateSubversion
 rstudioFile="rstudio-$rstudioCandidateFullVersion-$ARCHITECTURE.deb"
 rstudioServer="http://download1.rstudio.org/"
@@ -87,8 +87,8 @@ scilabPkgs="scilab"
 
 # GeoGebra
 geogebraPackageName="geogebra5"
-geogebraCandidateVersion="5.0.82.0"
-geogebraCandidateSubversion="39727"
+geogebraCandidateVersion="5.0.146.0"
+geogebraCandidateSubversion="42566"
 geogebraServer="http://www.geogebra.net/linux/pool/main/g/$geogebraPackageName"
 geogebraFile="${geogebraPackageName}_$geogebraCandidateVersion-${geogebraCandidateSubversion}_$ARCHITECTURE.deb"
 
@@ -116,7 +116,7 @@ rPkgs="r-cran-rodbc"
 
 # wxMaxima
 compileWxmaximaPkgs="libwxgtk2.8-dev"
-wxmaximaCandidateVersion="14.12.1"
+wxmaximaCandidateVersion="15.04.0"
 wxmaximaDir="wxmaxima-$wxmaximaCandidateVersion"
 wxmaximaFile="$wxmaximaDir.tar.gz"
 wxmaximaServer="http://sourceforge.net/projects/wxmaxima/files/wxMaxima/$wxmaximaCandidateVersion/$wxmaximaFile/download"
