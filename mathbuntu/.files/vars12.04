@@ -106,7 +106,7 @@ gapPkgs="gap gap-doc gap-prim-groups gap-small-groups gap-trans-groups gap-guava
 
 # Maxima
 compileMaximaPkgs="clisp texinfo texi2html tk"
-maximaCandidateVersion="5.35.1"
+maximaCandidateVersion="5.37.1"
 maximaDir="maxima-$maximaCandidateVersion"
 maximaFile="$maximaDir.tar.gz"
 maximaServer="http://sourceforge.net/projects/maxima/files/Maxima-source/$maximaCandidateVersion-source/maxima-$maximaCandidateVersion.tar.gz"
