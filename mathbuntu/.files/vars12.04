@@ -116,7 +116,7 @@ rPkgs="r-cran-rodbc"
 
 # wxMaxima
 compileWxmaximaPkgs="libwxgtk2.8-dev"
-wxmaximaCandidateVersion="15.04.0"
+wxmaximaCandidateVersion="14.12.1"
 wxmaximaDir="wxmaxima-$wxmaximaCandidateVersion"
 wxmaximaFile="$wxmaximaDir.tar.gz"
 wxmaximaServer="http://sourceforge.net/projects/wxmaxima/files/wxMaxima/$wxmaximaCandidateVersion/$wxmaximaFile/download"

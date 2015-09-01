@@ -115,7 +115,7 @@ maximaServer="http://sourceforge.net/projects/maxima/files/Maxima-source/$maxima
 rPkgs="r-cran-rodbc"
 
 # wxMaxima
-compileWxmaximaPkgs="libwxgtk2.8-dev"
+compileWxmaximaPkgs="libwxgtk3.0-dev"
 wxmaximaCandidateVersion="15.04.0"
 wxmaximaDir="wxmaxima-$wxmaximaCandidateVersion"
 wxmaximaFile="$wxmaximaDir.tar.gz"
