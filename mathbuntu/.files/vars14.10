@@ -76,7 +76,7 @@ octaveServer="ftp://ftp.gnu.org/gnu/octave/$octaveFile"
 
 # Rstudio
 rstudioCandidateVersion="0.99"
-rstudioCandidateSubversion="473"
+rstudioCandidateSubversion="486"
 rstudioCandidateFullVersion=$rstudioCandidateVersion.$rstudioCandidateSubversion
 rstudioFile="rstudio-$rstudioCandidateFullVersion-$ARCHITECTURE.deb"
 rstudioServer="http://download1.rstudio.org/"
@@ -87,13 +87,13 @@ scilabPkgs="scilab"
 
 # GeoGebra
 geogebraPackageName="geogebra5"
-geogebraCandidateVersion="5.0.146.0"
-geogebraCandidateSubversion="42566"
+geogebraCandidateVersion="5.0.166.0"
+geogebraCandidateSubversion="43652"
 geogebraServer="http://www.geogebra.net/linux/pool/main/g/$geogebraPackageName"
 geogebraFile="${geogebraPackageName}_$geogebraCandidateVersion-${geogebraCandidateSubversion}_$ARCHITECTURE.deb"
 
 # NetLogo
-netlogoCandidateVersion="5.2.0"
+netlogoCandidateVersion="5.2.1"
 netlogoDir="netlogo-$netlogoCandidateVersion"
 netlogoFile="$netlogoDir.tar.gz"
 netlogoServer="http://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
@@ -106,7 +106,7 @@ gapPkgs="gap gap-doc gap-prim-groups gap-small-groups gap-trans-groups gap-guava
 
 # Maxima
 compileMaximaPkgs="clisp texinfo texi2html tk"
-maximaCandidateVersion="5.37.1"
+maximaCandidateVersion="5.37.2"
 maximaDir="maxima-$maximaCandidateVersion"
 maximaFile="$maximaDir.tar.gz"
 maximaServer="http://sourceforge.net/projects/maxima/files/Maxima-source/$maximaCandidateVersion-source/maxima-$maximaCandidateVersion.tar.gz"
@@ -116,7 +116,7 @@ rPkgs="r-cran-rodbc"
 
 # wxMaxima
 compileWxmaximaPkgs="libwxgtk3.0-dev"
-wxmaximaCandidateVersion="15.04.0"
+wxmaximaCandidateVersion="15.08.2"
 wxmaximaDir="wxmaxima-$wxmaximaCandidateVersion"
 wxmaximaFile="$wxmaximaDir.tar.gz"
 wxmaximaServer="http://sourceforge.net/projects/wxmaxima/files/wxMaxima/$wxmaximaCandidateVersion/$wxmaximaFile/download"
