@@ -31,7 +31,7 @@ pidginLatexCandidateVersion="1.5"
 pidginLatexSubversion="0"
 pidginLatexDir="pidgin-latex"
 pidginLatexFile="${pidginLatexDir}_$pidginLatexCandidateVersion.$pidginLatexSubversion.tar.gz"
-pidginLatexServer="http://sourceforge.net/projects/pidgin-latex/files/$pidginLatexDir/$pidginLatexCandidateVersion/$pidginLatexFile"
+pidginLatexServer="https://managedway.dl.sourceforge.net/project/pidgin-latex/$pidginLatexDir/$pidginLatexCandidateVersion/$pidginLatexFile"
 pidginLatexTarget="/usr/lib/pidgin/LaTeX.so"
 
 # mathBuntu tarball
@@ -95,8 +95,8 @@ geogebraFile="${geogebraPackageName}_$geogebraCandidateVersion-${geogebraCandida
 # NetLogo
 netlogoCandidateVersion="5.2.1"
 netlogoDir="netlogo-$netlogoCandidateVersion"
-netlogoFile="$netlogoDir.tar.gz"
-netlogoServer="http://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
+netlogoTarball="$netlogoDir.tar.gz"
+netlogoServer="https://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
 
 # LyX
 lyxPkgs="lyx"
