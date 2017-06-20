@@ -10,7 +10,7 @@
 # 7) md5sum                                          #
 ######################################################
 #
-# Last updated  5 November 2015
+# Last updated 12 June 2017
 #
 #
 http://maxima.sourceforge.net/documentation.html
@@ -23,14 +23,14 @@ Maxima&nbsp;Introduction
 5b76a3cd4c890a663495e3edd1a50973
 #
 #
-http://maxima.sourceforge.net/documentation.html
-http://home.southernct.edu/~brinl1/pubs/maxima_and_calculus.pdf
+http://lqbrin.github.io/maxima-and-calculus/
+https://github.com/lqbrin/maxima-and-calculus/raw/master/maxima_and_calculus.pdf
 http://creativecommons.org/licenses/by-sa/3.0/us/
 pngs/cc-by-sa-88x31.png
 maxima_and_calculus.pdf
 maximaAndCalculus.pdf
 Maxima&nbsp;&amp;&nbsp;the&nbsp;Calculus
-2885280c1967c4f12dc239e58a54b076
+858225581f86e9277d753a2395b64da2
 #
 #
 http://maxima.sourceforge.net/documentation.html
@@ -40,4 +40,4 @@ pngs/help-contents.png
 maxima.pdf
 maximaReference.pdf
 Maxima&nbsp;Reference
-a543879263379bfbd1478a7b24090a31
+ae990b77a62326552c69de1c0e961ff5

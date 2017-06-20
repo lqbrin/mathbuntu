@@ -38,7 +38,7 @@ echo "Hit Return now to continue."
 read junk
 
 sudo rm -f /tmp/mathbuntuVersion
-wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntuVersion &> /dev/null
+wget -P /tmp https://github.com/lqbrin/mathbuntu/raw/master/mathbuntuVersion &> /dev/null
 thisVersion=`cat $path/mathbuntuVersion`
 if [ -z "$thisVersion" ]; then
 	thisVersion="no-this"
@@ -49,7 +49,7 @@ if [ -z "$thatVersion" ]; then
 fi
 if [ "$thisVersion" != "$thatVersion" ]; then
 	sudo rm -rf /tmp/mathbuntu.tar.gz
-	wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz &> /dev/null
+	wget -P /tmp https://github.com/lqbrin/mathbuntu/raw/master/mathbuntu.tar.gz &> /dev/null
 	if [ ! -f "/tmp/mathbuntu.tar.gz" ]; then
 		echo "Unable to get latest installer."
 		echo "Perhaps next time..."

@@ -17,11 +17,15 @@ if [ "$ARCHITECTURE" == "i386" ]; then
   gcc="gcc"
 fi
 
+qmakebin="/opt/Qt5.3.1/5.3/$gcc/bin/qmake"
+qtfile="qt-opensource-linux-x${arch}-5.3.1.run"
+qtserver="http://download.qt.io/archive/qt/5.3/5.3.1"
+#qtserver="https://github.com/lqbrin/mathbuntu/raw/master/downloads"
 # Install Qt if needed
-if [ "$AUTOMATIC"="no" ] && [ ! -f "/opt/Qt5.3.1/5.3/$gcc/bin/qmake" ]; then
-  wget -P /tmp http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-linux-x${arch}-5.3.1.run
-  chmod +x /tmp/qt-opensource-linux-x${arch}-5.3.1.run
-  /tmp/qt-opensource-linux-x${arch}-5.3.1.run
+if [ "$AUTOMATIC"="no" ] && [ ! -f "$qmakebin" ]; then
+  wget -P /tmp $qtserver/$qtfile
+  chmod +x /tmp/$qtfile
+  /tmp/$qtfile
 fi
 
 # Get source
@@ -30,7 +34,7 @@ su $nobody -c "cd /tmp/lurch && git submodule update --init --recursive"
 su $nobody -c "cd /tmp/lurch && git submodule update --recursive"
 
 # Make
-su $nobody -c "cd /tmp/lurch/utils/Lurch && /opt/Qt5.3.1/5.3/$gcc/bin/qmake"
+su $nobody -c "cd /tmp/lurch/utils/Lurch && $qmakebin"
 su $nobody -c "cd /tmp/lurch/utils/Lurch && make"
 
 rm -rf $installDir/lurch

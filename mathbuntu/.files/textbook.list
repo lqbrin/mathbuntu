@@ -12,7 +12,7 @@
 # 9) Category                                        #
 ######################################################
 #
-# Last updated  5 November 2015
+# Last updated 12 June 2017
 #
 #
 http://www.math.miami.edu/~ec/book/
@@ -59,7 +59,7 @@ calc.pdf
 BriefCalculus-Crowell.pdf
 Brief&nbsp;Calculus
 Benjamin&nbsp;Crowell
-19f6a55345762bc3df449fa527873496
+5c0973b4bc0d1e1cf0fdbff62c74f0e8
 Calculus
 #
 #
@@ -71,7 +71,7 @@ multivariable.pdf
 Calculus-Guichard.pdf
 Calculus
 David&nbsp;Guichard&nbsp;and&nbsp;Others
-1a78c2de483c5635a7e25335bde95c59
+e37cf4d91ed5a366950ad90b881d6205
 Calculus
 #
 #
@@ -131,7 +131,7 @@ complex.pdf
 FirstCourseInComplexAnalysis-Beck.pdf
 A&nbsp;First&nbsp;Course&nbsp;in&nbsp;Complex&nbsp;Analysis
 Mathias&nbsp;Beck
-9909622923817be7e6a175307890e602
+6ef9a230c0c245cf775dd5458b811316
 Complex_Analysis
 #
 #
@@ -155,7 +155,7 @@ diffyqs.pdf
 DiffyQs-Lebl.pdf
 Notes&nbsp;On&nbsp;Diffy&nbsp;Qs&nbsp;<small>Differential&nbsp;Equations<br>for&nbsp;Engineers</small>
 Ji&#345;&#237;&nbsp;Lebl
-12311f961e737d9aee97cd50bfdc053d
+d419ec3100bd8f3d80de6947890b62fb
 Differential_Equations
 #
 #
@@ -203,7 +203,7 @@ GIAM.pdf
 GentleIntroductionToTheArtOfMathematics-Fields.pdf
 A&nbsp;Gentle&nbsp;Introduction&nbsp;to&nbsp;the<br>Art&nbsp;of&nbsp;Mathematics
 Joseph&nbsp;Fields
-32b0c3b3b67fbba8ae4b85fb3d72ffe4
+81e44e6dc763c14b93295de647076280
 Foundations
 #
 #
@@ -215,7 +215,7 @@ GIAM-hw.pdf
 GentleIntroductionToTheArtOfMathematicsWorkbook-Fields.pdf
 A&nbsp;Gentle&nbsp;Introduction&nbsp;to&nbsp;the<br>Art&nbsp;of&nbsp;Mathematics&nbsp;(<small>Workbook</small>)
 Joseph&nbsp;Fields
-983e59f7f81b01fa5595d924c081ba51
+b2a857496d2949aad4a2859fc38fd0b3
 Foundations
 #
 #
@@ -239,7 +239,7 @@ proofs+concepts.pdf
 ProofsAndConcepts-MorrisAndMorris.pdf
 Proofs&nbsp;and&nbsp;Concepts&nbsp;<small>the&nbsp;fundamentals<br>of&nbsp;abstract&nbsp;mathematics</small>
 Dave&nbsp;Witte&nbsp;Morris&nbsp;and&nbsp;Joy&nbsp;Morris
-a0ef4d613a388dbd2eb9cf0be76f4d6b
+a972489776d09a4d0b6c72a21039ef89
 Foundations
 #
 #
@@ -347,7 +347,7 @@ linear-guest.pdf
 LinearAlgebra-Cherney.pdf
 Linear&nbsp;Algebra
 Cherney,&nbsp;Denton,&nbsp;and&nbsp;Waldron
-3ec0b46683a89e8613144d045dbd7d72
+ed022f45ccb011b5c0ed045f6e6db0d5
 Linear_Algebra
 #
 #
@@ -359,7 +359,7 @@ book.pdf
 LinearAlgebra-Hefferon.pdf
 Linear&nbsp;Algebra
 Jim&nbsp;Hefferon
-cbb306b9c63924ec042b02936d3f726a
+8b63c5f09dbb28a5690db28022adca2f
 Linear_Algebra
 #
 #
@@ -371,7 +371,7 @@ jhanswer.pdf
 LinearAlgebraAnswers-Hefferon.pdf
 Linear&nbsp;Algebra&nbsp;(<small>Answers</small>)
 Jim&nbsp;Hefferon
-dcd0200b56df8d24708ce751334846ea
+156fe6c6a70aa705a316b9a694c58437
 Linear_Algebra
 #
 #
@@ -419,7 +419,7 @@ TeaTimeNumericalAnalysis.pdf
 NumericalAnalysis-Brin.pdf
 Tea&nbsp;Time&nbsp;Numerical&nbsp;Analysis<br><small>Experiences&nbsp;in&nbsp;Mathematics</small>
 Leon&nbsp;Q.&nbsp;Brin
-bdd4e1d4267419fe067740f91a84bf23
+cfdf855f6beac1d382bc3df5d854fd3a
 Numerical_Analysis
 #
 #
@@ -435,27 +435,27 @@ Carl&nbsp;Stitz&nbsp;and&nbsp;Jeff&nbsp;Zeager
 Precalculus
 #
 #
-http://cnx.org/content/col10522/latest
-http://cnx.org/exports/5e0744f9-9e79-4348-9237-ed012213a2d6@40.9.pdf/collaborative-statistics-40.9.pdf
-http://creativecommons.org/licenses/by/2.0/
-pngs/cc-by-88x31.png
-collaborative-statistics-40.9.pdf
-CollaborativeStatistics-IllowskyAndDean.pdf
-Collaborative&nbsp;Statistics
-Barbara&nbsp;Illowsky&nbsp;and&nbsp;Susan&nbsp;Dean
-70faaf4990e44e81db79abe761e28b15
+https://www.openintro.org/stat/textbook.php?stat_book=os
+https://github.com/lqbrin/mathbuntu/raw/master/downloads/os3.pdf
+http://creativecommons.org/licenses/by/3.0/
+pngs/cc-by-sa-88x31.png
+os3.pdf
+OpenIntroStatistics-DiezBarrRundel.pdf
+OpenIntro&nbsp;Statistics
+David&nbsp;Diez&nbsp;,&nbsp;Christopher&nbsp;Barr,&nbsp;and&nbsp;Mine&nbsp;Cetinkaya-Rundel
+ac5a0d05af2d762ae0eee21bc893e931
 Probability_and_Statistics
 #
 #
-https://openstaxcollege.org/textbooks/introductory-statistics
-https://openstaxcollege.org/files/textbook_version/hi_res_pdf/15/col11562-OP.pdf
+https://openstax.org/details/books/introductory-statistics
+https://d3bxy9euw4e147.cloudfront.net/oscms-prodcms/media/documents/Introductory_Statistics-OP.pdf
 http://creativecommons.org/licenses/by/3.0/
 pngs/cc-by-88x31.png
-col11562-OP.pdf
-IntroductoryStatistics-OpenstaxCollege.pdf
+Introductory_Statistics-OP.pdf
+IntroductoryStatistics-Openstax.pdf
 Introductory&nbsp;Statistics
-OpenStax&nbsp;College
-506311dbaea234c019d7ac8adb033c69
+OpenStax
+d04736fab9c9c47d142319d3bc032488
 Probability_and_Statistics
 #
 #
@@ -503,7 +503,7 @@ index.html
 StoryOfRealAnalysis-Rogers.pdf
 A&nbsp;Story&nbsp;of&nbsp;Real&nbsp;Analysis
 Robert&nbsp;Rogers&nbsp;and&nbsp;Eugene&nbsp;Boman
-7014a998352a2aede6af2aed0920d05c
+3b4987c5161b88da8ccb5f7ba1fe1d51
 Real_Analysis
 #
 #
@@ -515,7 +515,7 @@ realanal.pdf
 BasicAnalysis-Lebl.pdf
 Basic&nbsp;Analysis&nbsp;<small>Introduction&nbsp;to&nbsp;Real&nbsp;Analysis</small>
 Jiri&nbsp;Lebl
-6680b1fa07177758542d4a2cced8309b
+2a5dd3ee08e661a1ca904e6de67a61e4
 Real_Analysis
 #
 #

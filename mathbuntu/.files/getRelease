@@ -1,14 +1,10 @@
 #!/bin/bash
 
-ACCEPTABLEVERSION1="12.04"
-ACCEPTABLENAME1="precise pangolin"
-ACCEPTABLEVERSION2="14.04"
-ACCEPTABLENAME2="trusty tahr"
-ACCEPTABLEVERSION3="14.10"
-ACCEPTABLENAME3="utopic unicorn"
-ACCEPTABLEVERSION4="15.04"
-ACCEPTABLENAME4="vivid vervet"
-DEFAULTVERSION="14.04"
+ACCEPTABLEVERSION1="14.04"
+ACCEPTABLENAME1="trusty tahr"
+ACCEPTABLEVERSION2="16.04"
+ACCEPTABLENAME2="xenial xerus"
+DEFAULTVERSION="16.04"
 
 MESSAGE1="\n\n\n\n\n\n\n\n\n\n
 It seems you are not running any version of Ubuntu...\n
@@ -28,9 +24,8 @@ MESSAGE3="\n\n\n\n\n\n\n\n\n\n
 This script is designed for versions\n
    $ACCEPTABLEVERSION1 ($ACCEPTABLENAME1)\n
    $ACCEPTABLEVERSION2 ($ACCEPTABLENAME2)\n
-   $ACCEPTABLEVERSION3 ($ACCEPTABLENAME3)\n
-   $ACCEPTABLEVERSION4 ($ACCEPTABLENAME4)\n
-only. You seem to be using version $VERSION.\n
+You seem to be using version $VERSION. Mathbuntu only supports LTS\n
+releases of Ubuntu.\n
 \n
 It is not recommended that you continue. However, you may proceed\n
 at your own risk. While the script is not likely to cause any\n

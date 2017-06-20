@@ -342,7 +342,7 @@ fi
 if [ -z "$CUSTOMFILES_INSTALLED" ] || ([ ! -z "$CUSTOMFILES_INSTALLED" ] && [ "$CUSTOMFILES_UPTODATE" == "no" ]); then
   newsflash "Installing Mathbuntu files...\n\nThere aren't a lot of them, so this should not take long."
   mathbuntuTarball="mathbuntu$VERSION.tar.gz"
-    trycommand "aria2c -d /tmp http://www.mathbuntu.org/tarball/$mathbuntuTarball"
+    trycommand "aria2c -d /tmp https://github.com/lqbrin/mathbuntu/raw/master/tarball/$mathbuntuTarball"
     trycommand "tar -C / --no-same-owner -xzvf /tmp/$mathbuntuTarball"
   if checkMd5sum "/tmp/$mathbuntuTarball" $mathbuntuTarballMd5sum; then
     echo "$mathbuntuTarballMd5sum" > $mathbuntuCheckFile
@@ -384,11 +384,13 @@ do
     if [ ${textbook[10*i+1]:0:4} == "WGET" ]; then
       com="wget -O /tmp/$sourceName"
       downloadURL=${textbook[10*i+1]:4}
+      certificatestate="off"
     else
       com="aria2c -d /tmp -o $sourceName"
+      certificatestate="false"
     fi
     if [ ${downloadURL:0:8} == "https://" ]; then
-      com="$com --check-certificate=false"
+      com="$com --check-certificate=$certificatestate"
     fi
     cp -f ./pdfNotAvailable.pdf $destPath
     trycommand "$com $downloadURL"
@@ -447,19 +449,19 @@ fi
 # NetLogo
 if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
   newsflash "Installing NetLogo...\n\nRetrieving package from northwestern.edu"
-  trycommand "aria2c -d /tmp $netlogoServer/$netlogoFile"
-  trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoFile"
+  trycommand "aria2c -d /tmp $netlogoServer/$netlogoTarball"
+  trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoTarball"
   echo "#!/bin/bash" > /usr/local/bin/netlogo
-  echo "cd $mathbuntuLocal/$netlogoDir && ./netlogo.sh" >> /usr/local/bin/netlogo
+  echo "cd \"$mathbuntuLocal/$netlogoDir\" && ./NetLogo" >> /usr/local/bin/netlogo
   chmod 755 /usr/local/bin/netlogo
   echo "$netlogoCandidateVersion" > "$mathbuntuLocal/$netlogoDir/version"
 fi
 # Jslideshow:
-echo "Installing Jslideshow..." >> $LOGFILE
-trycommand "aria2c -d /tmp http://sourceforge.net/projects/jslideshow/files/jslideshow-installer/0.92/UbuntuInstaller.tar.gz/download"
-trycommand "tar -C /tmp -xzvf /tmp/UbuntuInstaller.tar.gz"
-trycommand "/tmp/Jslideshow-installer/installJslideshow skipupdate"
-echo >> $LOGFILE
+#echo "Installing Jslideshow..." >> $LOGFILE
+#trycommand "aria2c -d /tmp http://sourceforge.net/projects/jslideshow/files/jslideshow-installer/0.92/UbuntuInstaller.tar.gz/download"
+#trycommand "tar -C /tmp -xzvf /tmp/UbuntuInstaller.tar.gz"
+#trycommand "/tmp/Jslideshow-installer/installJslideshow skipupdate"
+#echo >> $LOGFILE
 # Pidgin LaTeX:
 if [ -z "$PIDGINLATEX_INSTALLED" ] || ([ ! -z "$PIDGINLATEX_INSTALLED" ] && [ "$PIDGINLATEX_UPTODATE" == "no" ]); then
   newsflash "Installing Pidgin LaTeX...\n\nThis should be quick. Once installed you will be able to send and receive IM's with mathematical symbols! As long as the person on the other end is also using Pidgin-LaTex."
@@ -660,7 +662,7 @@ trycommand "rm -f $tempfile"
 if [ "$workingDir" != "$mathbuntuLocal/mathbuntu/.files" ]; then
   echo "Installing Mathbuntu Installer..." >> $LOGFILE
   trycommand "rm -f /tmp/mathbuntu.tar.gz"
-  trycommand "wget -P /tmp http://mathbuntu.org/mathbuntu/mathbuntu.tar.gz"
+  trycommand "wget -P /tmp https://github.com/lqbrin/mathbuntu/raw/master/mathbuntu.tar.gz"
   trycommand "tar -C $mathbuntuLocal -xzf /tmp/mathbuntu.tar.gz"
   trycommand "cp $mathbuntuLocal/mathbuntu/.files/Set-up-$FLAVOR.desktop /usr/local/share/applications"
   doctorDesktopItem "Set-up-$FLAVOR.desktop"

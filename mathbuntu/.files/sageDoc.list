@@ -10,7 +10,7 @@
 # 7) md5sum                                          #
 ######################################################
 #
-# Last updated  5 November 2015
+# Last updated 12 June 2017
 #
 #
 http://doc.sagemath.org/html/en
@@ -20,7 +20,7 @@ pngs/cc-by-sa-88x31.png
 SageTutorial.pdf
 sageTutorial.pdf
 SAGE&nbsp;Tutorial
-ff9413ecab8fba937e743d66870bad10
+383e7da7aa86a36e976e251b226cd8c7
 #
 #
 http://doc.sagemath.org/html/en
@@ -30,7 +30,7 @@ pngs/cc-by-88x31.png
 a_tour_of_sage.pdf
 sageTour.pdf
 SAGE&nbsp;Tour
-3f762754a6e98250de78b0b41a45097a
+1090d328335bd50d0d84b67ef8f8adf5
 #
 #
 http://doc.sagemath.org/html/en
@@ -40,7 +40,7 @@ pngs/cc-by-88x31.png
 thematic_tutorials.pdf
 sageTutorials.pdf
 SAGE&nbsp;Tutorials
-fa6a32efd9e7527e41edaaf4ba13b37b
+794381e06918242512b6dc81faaa35fc
 #
 #
 http://doc.sagemath.org/html/en
@@ -50,7 +50,7 @@ pngs/cc-by-88x31.png
 prep_tutorials.pdf
 sagePREP.pdf
 SAGE&nbsp;PREP
-6f6e391236d9eb1dd1ba3cbf65c4ca71
+847ea2d05fa9118def89b20fe399bef4
 #
 #
 http://doc.sagemath.org/html/en
@@ -60,7 +60,7 @@ pngs/cc-by-88x31.png
 constructions.pdf
 sageConstructions.pdf
 SAGE&nbsp;Constructions
-3214adaef6c9bca5ef2b0750e86d33fe
+ecbd8ea011388f3ed9d85077d0049499
 #
 #
 http://doc.sagemath.org/html/en
@@ -70,4 +70,4 @@ pngs/cc-by-88x31.png
 faq.pdf
 sageFAQ.pdf
 SAGE&nbsp;Frequently&nbsp;Asked&nbsp;Questions
-0a050d54880558672da8b3194133320e
+98de6c3c0411438453edbbd3dad2a260

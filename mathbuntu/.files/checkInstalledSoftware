@@ -99,7 +99,7 @@ NETLOGO_UPTODATE="yes"
 installedVersion=""
 NETLOGO_INSTALLED=`which netlogo`
 if [ ! -z "$NETLOGO_INSTALLED" ] && [ -f "$mathbuntuLocal/$netlogoDir/version" ]; then
-  installedVersion=`cat $mathbuntuLocal/$netlogoDir/version`
+  installedVersion=`cat "$mathbuntuLocal/$netlogoDir/version"`
 fi
 if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$netlogoCandidateVersion"; then
   NETLOGO_UPTODATE="no"
