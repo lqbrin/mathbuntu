@@ -452,7 +452,7 @@ if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
   trycommand "aria2c -d /tmp $netlogoServer/$netlogoTarball"
   trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoTarball"
   echo "#!/bin/bash" > /usr/local/bin/netlogo
-  echo "cd \"$mathbuntuLocal/$netlogoDir\" && ./NetLogo" >> /usr/local/bin/netlogo
+  echo "cd \"$mathbuntuLocal/$netlogoDir\" && ./$netlogoBin" >> /usr/local/bin/netlogo
   chmod 755 /usr/local/bin/netlogo
   echo "$netlogoCandidateVersion" > "$mathbuntuLocal/$netlogoDir/version"
 fi
