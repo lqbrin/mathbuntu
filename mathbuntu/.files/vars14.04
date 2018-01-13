@@ -133,7 +133,7 @@ maximaServer="http://sourceforge.net/projects/maxima/files/Maxima-source/$maxima
 rPkgs="r-cran-rodbc"
 
 # wxMaxima
-compileWxmaximaPkgs="libwxgtk3.0-dev"
+compileWxmaximaPkgs="build-essential libwxgtk3.0-dev ibus-gtk ibus-gtk3"
 wxmaximaCandidateVersion="17.10.1"
 wxmaximaDir="wxmaxima-Version-$wxmaximaCandidateVersion"
 wxmaximaFile="$wxmaximaDir.tar.gz"
