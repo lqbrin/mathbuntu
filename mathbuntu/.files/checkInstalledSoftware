@@ -78,17 +78,9 @@ SCILAB_UPTODATE="no"
 # GeoGebra
 GEOGEBRA_UPTODATE="yes"
 installedVersion=""
-GEOGEBRA_INSTALLED=`which geogebra`
+GEOGEBRA_INSTALLED=`which geogebra-classic`
 if [ ! -z "$GEOGEBRA_INSTALLED" ]; then
-  packageVersion=`apt-cache showpkg $geogebraPackageName`
-  packageVersion=${packageVersion%%-*}
-  packageVersion=${packageVersion##*[[:space:]]}
-  if [ ! -z "$packageVersion" ]; then
-    packageInstalled=`dpkg --get-selections | grep -v deinstall | grep $geogebraPackageName`
-    if [ ! -z "$packageInstalled" ]; then
-      installedVersion=$packageVersion
-    fi
-  fi
+  installedVersion=`cat "$mathbuntuLocal/$geogebraDir/geogebraVersion"`
 fi
 if [ -z "$installedVersion" ] || version_compare "$installedVersion" "$geogebraCandidateVersion"; then
   GEOGEBRA_UPTODATE="no"

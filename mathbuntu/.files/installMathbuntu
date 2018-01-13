@@ -88,7 +88,6 @@ htmlDestDir="$mathbuntuLocal/freebooks"
 textbookDestDir="$mathbuntuLocal/freebooks/pdfs"
 textbook=( $(cat "./textbook.list" | grep -v -E "^#") )
 documentationDestDir="$mathbuntuLocal/freebooks/pdfs"
-geogebraDocList="./geogebraDoc.list"
 maximaDocList="./wxmaximaDoc.list"
 sageDocList="./sageDoc.list"
 rDocList="./rDoc.list"
@@ -414,9 +413,6 @@ cp -f $htmlDest $htmlDestDir
 ##################################
 # Install software documentation #
 ##################################
-# Geogebra
-newsflash "Installing Geogebra documentation..."
-installDocumentation $geogebraDocList "./geogebraHead.html" "./geogebraIndex.html" $htmlDestDir $documentationDestDir "GeoGebra"
 # Maxima
 newsflash "Installing Maxima documentation..."
 trycommand "cp wxmaximaSamples.html $htmlDestDir"
@@ -434,10 +430,12 @@ installDocumentation $sageDocList "./sageHead.html" "./sageIndex.html" $htmlDest
 # GeoGebra
 if [ ! -z "$(echo $softwareList | grep GeoGebra)" ]; then
   newsflash "Installing GeoGebra...\n\nRetrieving package from geogebra.org."
-  trycommand "aria2c -d /tmp $geogebraServer/$geogebraFile"
-  trycommand "apt-get remove -y geogebra"
-  trycommand "apt-get remove -y geogebra44"
-  trycommand "dpkg -i /tmp/geogebra*deb"
+  trycommand "aria2c --check-certificate=false -d /tmp $geogebraServer/$geogebraFile"
+  trycommand "unzip /tmp/$geogebraDownload -d $mathbuntuLocal"
+  echo "#!/bin/bash" > /usr/local/bin/geogebra-classic
+  echo "cd \"$mathbuntuLocal/$geogebraDir\" && ./$geogebraBin" >> /usr/local/bin/geogebra-classic
+  chmod 755 /usr/local/bin/geogebra-classic
+  echo "$geogebraCandidateVersion" > "$mathbuntuLocal/$geogebraDir/geogebraVersion"
 fi
 # Rstudio
 if [ ! -z "$(echo $softwareList | grep Rstudio)" ]; then
@@ -451,6 +449,8 @@ if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
   newsflash "Installing NetLogo...\n\nRetrieving package from northwestern.edu"
   trycommand "aria2c -d /tmp $netlogoServer/$netlogoTarball"
   trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoTarball"
+  rm -rf $mathbuntuLocal/$netlogoDir
+  mv "$mathbuntuLocal/$netlogoInitialDir" $mathbuntuLocal/$netlogoDir
   echo "#!/bin/bash" > /usr/local/bin/netlogo
   echo "cd \"$mathbuntuLocal/$netlogoDir\" && ./$netlogoBin" >> /usr/local/bin/netlogo
   chmod 755 /usr/local/bin/netlogo
@@ -566,7 +566,7 @@ if [ "$FLAVOR" != "Lubuntu" ]; then
 fi
 # Optional
 if [ ! -z "$(echo $softwareList | grep GeoGebra)" ]; then
-  doctorDesktopItem "geogebra.desktop"
+  doctorDesktopItem "geogebra-classic.desktop"
 fi
 if [ ! -z "$(echo $softwareList | grep Lurch)" ]; then
   doctorDesktopItem "lurch.desktop"

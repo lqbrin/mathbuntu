@@ -12,7 +12,7 @@
 # 9) Category                                        #
 ######################################################
 #
-# Last updated 12 June 2017
+# Last updated 13 January 2018
 #
 #
 http://www.math.miami.edu/~ec/book/
@@ -71,19 +71,19 @@ multivariable.pdf
 Calculus-Guichard.pdf
 Calculus
 David&nbsp;Guichard&nbsp;and&nbsp;Others
-e37cf4d91ed5a366950ad90b881d6205
+8e9135c9baa527621f6e3ff022033121
 Calculus
 #
 #
 http://www.math.wisc.edu/~keisler/calc.html
-WGEThttp://www.math.wisc.edu/~keisler/keislercalc-12-27-13.pdf
+WGEThttp://www.math.wisc.edu/~keisler/keislercalc-03-07-17.pdf
 http://creativecommons.org/licenses/by-nc-sa/2.0/
 pngs/cc-by-nc-sa-88x31.png
-keislercalc-12-27-13.pdf
+keislercalc-03-07-17.pdf
 ElementaryCalculus-Keisler.pdf
 Elementary&nbsp;Calculus:&nbsp;<small>An&nbsp;Infinitesimal&nbsp;Approach</small>
 H.&nbsp;Jerome&nbsp;Keisler
-eb18d5dedd57384149eddc10b619dcca
+9af490ede7940ae6e4c6bd297b732ffc
 Calculus
 #
 #
@@ -131,7 +131,7 @@ complex.pdf
 FirstCourseInComplexAnalysis-Beck.pdf
 A&nbsp;First&nbsp;Course&nbsp;in&nbsp;Complex&nbsp;Analysis
 Mathias&nbsp;Beck
-6ef9a230c0c245cf775dd5458b811316
+0c429907163a1d4062db880be942a569
 Complex_Analysis
 #
 #
@@ -155,7 +155,7 @@ diffyqs.pdf
 DiffyQs-Lebl.pdf
 Notes&nbsp;On&nbsp;Diffy&nbsp;Qs&nbsp;<small>Differential&nbsp;Equations<br>for&nbsp;Engineers</small>
 Ji&#345;&#237;&nbsp;Lebl
-d419ec3100bd8f3d80de6947890b62fb
+35b54d39fab577936c73a379df996d59
 Differential_Equations
 #
 #
@@ -251,7 +251,7 @@ forallx.pdf
 ForallX-Magnus.pdf
 Forall&nbsp;X&nbsp;<small>An&nbsp;introduction<br>to&nbsp;Formal&nbsp;logic</small>
 P.D.&nbsp;Magnus
-dabcf07a0169283741cb654c2d626e32
+230f17fd278cbaddc50096670823ed06
 Foundations
 #
 #
@@ -311,7 +311,7 @@ pngs/publicDomain.png
 ShortAccountOfTheHistoryOfMathematics-Ball.pdf
 A&nbsp;Short&nbsp;Account&nbsp;of&nbsp;the&nbsp;History&nbsp;of&nbsp;Mathematics
 W.&nbsp;W.&nbsp;Rouse&nbsp;Ball
-b99067818d3cc9427cb29879f1a68576
+1746f464bd358278f18d714785c3cfab
 History_of_Mathematics
 #
 #
@@ -448,14 +448,14 @@ Probability_and_Statistics
 #
 #
 https://openstax.org/details/books/introductory-statistics
-https://d3bxy9euw4e147.cloudfront.net/oscms-prodcms/media/documents/Introductory_Statistics-OP.pdf
+https://d3bxy9euw4e147.cloudfront.net/oscms-prodcms/media/documents/Statistics-OP.pdf
 http://creativecommons.org/licenses/by/3.0/
 pngs/cc-by-88x31.png
-Introductory_Statistics-OP.pdf
+Statistics-OP.pdf
 IntroductoryStatistics-Openstax.pdf
 Introductory&nbsp;Statistics
 OpenStax
-d04736fab9c9c47d142319d3bc032488
+03d2c5397302c36c64cc76005585d46f
 Probability_and_Statistics
 #
 #
@@ -503,7 +503,7 @@ index.html
 StoryOfRealAnalysis-Rogers.pdf
 A&nbsp;Story&nbsp;of&nbsp;Real&nbsp;Analysis
 Robert&nbsp;Rogers&nbsp;and&nbsp;Eugene&nbsp;Boman
-3b4987c5161b88da8ccb5f7ba1fe1d51
+d6ec64af73639730a1cd3c04be5e3974
 Real_Analysis
 #
 #
