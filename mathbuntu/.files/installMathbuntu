@@ -449,8 +449,10 @@ if [ ! -z "$(echo $softwareList | grep Netlogo)" ]; then
   newsflash "Installing NetLogo...\n\nRetrieving package from northwestern.edu"
   trycommand "aria2c -d /tmp $netlogoServer/$netlogoTarball"
   trycommand "tar -C $mathbuntuLocal --no-same-owner -xzf /tmp/$netlogoTarball"
-  rm -rf $mathbuntuLocal/$netlogoDir
-  mv "$mathbuntuLocal/$netlogoInitialDir" $mathbuntuLocal/$netlogoDir
+  if [ "$netlogoInitialDir" != "$netlogoDir" ]; then
+    rm -rf $mathbuntuLocal/$netlogoDir
+    mv "$mathbuntuLocal/$netlogoInitialDir" $mathbuntuLocal/$netlogoDir
+  fi
   echo "#!/bin/bash" > /usr/local/bin/netlogo
   echo "cd \"$mathbuntuLocal/$netlogoDir\" && ./$netlogoBin" >> /usr/local/bin/netlogo
   chmod 755 /usr/local/bin/netlogo

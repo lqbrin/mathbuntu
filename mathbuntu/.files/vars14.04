@@ -99,23 +99,22 @@ geogebraDir="GeoGebra-linux-x64"
 geogebraBin="GeoGebra"
 
 # NetLogo
-netlogoCandidateVersion="6.0.2"
+# Why don't recent versions work in 32-bit Ubuntu?
 if [ "$ARCHITECTURE" == "i386" ]; then
-  netlogoArch="32"
+  netlogoCandidateVersion="5.2.1"
+  netlogoDir="netlogo-$netlogoCandidateVersion"
+  netlogoInitialDir=$netlogoDir
+  netlogoTarball="$netlogoDir.tar.gz"
+  netlogoServer="https://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
+  netlogoBin="netlogo.sh"
 else
-  netlogoArch="64"
+  netlogoCandidateVersion="6.0.2"
+  netlogoTarball="NetLogo-$netlogoCandidateVersion-64.tgz"
+  netlogoServer="https://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
+  netlogoInitialDir="NetLogo $netlogoCandidateVersion"
+  netlogoDir="NetLogo$netlogoCandidateVersion"
+  netlogoBin="NetLogo"
 fi
-netlogoTarball="NetLogo-$netlogoCandidateVersion-$netlogoArch.tgz"
-netlogoServer="https://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
-netlogoInitialDir="NetLogo $netlogoCandidateVersion"
-netlogoDir="NetLogo$netlogoCandidateVersion"
-netlogoBin="NetLogo"
-
-#netlogoCandidateVersion="5.2.1"
-#netlogoDir="netlogo-$netlogoCandidateVersion"
-#netlogoTarball="$netlogoDir.tar.gz"
-#netlogoServer="https://ccl.northwestern.edu/netlogo/$netlogoCandidateVersion"
-#netlogoBin="netlogo.sh"
 
 # LyX
 lyxPkgs="lyx"
